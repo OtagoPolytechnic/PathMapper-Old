@@ -1,4 +1,4 @@
-package bit.hallnj7.pathmapper.Interfaces;
+package bit.com.pathmapper.Interfaces;
 
 /**
  * Created by tsgar on 27/09/2016.

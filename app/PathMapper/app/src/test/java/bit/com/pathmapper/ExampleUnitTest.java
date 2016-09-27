@@ -1,4 +1,4 @@
-package bit.hallnj7.pathmapper;
+package bit.com.pathmapper;
 
 import org.junit.Test;
 

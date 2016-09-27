@@ -1,10 +1,13 @@
-package bit.hallnj7.pathmapper;
+package bit.com.pathmapper;
+
+import bit.com.pathmapper.Interfaces.IMakers;
+import bit.com.pathmapper.Interfaces.IPaths;
 
 /**
  * Created by tsgar on 27/09/2016.
  */
 
-public class PathMapper extends BaseMapActivity {
+public class PathMapper extends BaseMapActivity implements IMakers, IPaths{
 
     //Extends baseMapActivity
     //Main logic for markers and paths

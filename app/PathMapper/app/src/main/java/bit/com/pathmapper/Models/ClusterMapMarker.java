@@ -1,4 +1,4 @@
-package bit.hallnj7.pathmapper.Models;
+package bit.com.pathmapper.Models;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
