@@ -7,5 +7,5 @@ package bit.com.pathmapper.Interfaces;
 public interface IPaths {
 
     //Methods needed to create the path / tracks functionality
-    //Implemented by the PathMapper Class
+    //Implemented by the PathMapperActivity Class
 }

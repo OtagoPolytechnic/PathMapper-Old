@@ -7,6 +7,6 @@ package bit.com.pathmapper.Interfaces;
 public interface IMakers {
 
     //Methods needed to create the clustering markers functionality
-    //Implemented by the PathMapper Class
+    //Implemented by the PathMapperActivity Class
 
 }
