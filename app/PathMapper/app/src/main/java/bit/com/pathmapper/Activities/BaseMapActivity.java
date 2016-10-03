@@ -19,22 +19,10 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
 
     protected int getLayoutID() { return  R.layout.map; }
 
-    //Base activity class that creates the map.
-    //Mimic off google maps example
-    //TODO add overrides and setup methods
-    //onResume
-    //onCreate
-    //SetUpMap
-    //GetMap
-
-    protected int getLayoutId() {
-        return R.layout.map;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutId());
+        setContentView(getLayoutID());
         setUpMap();
     }
 
