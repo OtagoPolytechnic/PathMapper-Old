@@ -12,6 +12,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //TODO Needs to be changed to spash screen on start and then call the main to run PathMapper.
+
         //This should initialize all the controls and call the PathMapperActivity
 
     }
