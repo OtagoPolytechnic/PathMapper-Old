@@ -3,4 +3,7 @@
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyB_586NWX69NW1qoUX23Adv6FWDMS5yTTk
     </string>
+
+    <string name="paths_kml_filename">paths_kml</string>
+
 </resources>
