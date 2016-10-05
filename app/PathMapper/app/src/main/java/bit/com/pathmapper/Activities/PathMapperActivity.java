@@ -6,18 +6,19 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
-import bit.com.pathmapper.Interfaces.IMakers;
+import bit.com.pathmapper.Interfaces.IMarkers;
 import bit.com.pathmapper.Interfaces.IPaths;
 
 /**
  * Created by tsgar on 27/09/2016.
  */
 
-public class PathMapperActivity extends BaseMapActivity implements IMakers, IPaths{
+public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPaths{
 
-    private GoogleMap gMap;
-    //Extends baseMapActivity
-    //Main logic for markers and paths
+    private GoogleMap gMap; //Might no be needed
+
+    //Extends BaseMapActivity
+    //Main logic for markers and paths / will create and use the utilities classes as necessary.
     //Subject to changes based on size and how paths and markers interact.
 
     //TODO create and add interface for paths
