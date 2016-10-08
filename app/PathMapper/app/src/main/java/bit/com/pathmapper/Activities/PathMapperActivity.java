@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import bit.com.pathmapper.Interfaces.IMarkers;
 import bit.com.pathmapper.Interfaces.IPaths;
+import bit.com.pathmapper.Utilities.KmlParser;
 
 /**
  * Created by tsgar on 27/09/2016.
@@ -28,7 +29,11 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
     @Override
     protected void start() {
         //Should start the map over the gardens information center.
+        gMap = getMap();
         getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-45.856637, 170.518787), 15));
+
+        KmlParser kmlParser = new KmlParser(gMap, this); //Initialize the KmlParser Class and pass it the map and the app context.
+        kmlParser.RenderKmlPaths(); //Call the wrapper render function.
 
         Log.e("Yay the thing happened", "");
     }
