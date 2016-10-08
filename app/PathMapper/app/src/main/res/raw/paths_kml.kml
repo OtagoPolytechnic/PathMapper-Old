@@ -5,6 +5,8 @@
   <name>Paths</name>
   <description>GPS Logger: 20161001-154938
   </description>
+
+
   <Style id="TrackLineAndPoly">
    <LineStyle>
     <color>50F00014</color>
@@ -19,6 +21,14 @@
     <Icon> <href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle_highlight.png</href> </Icon>
    </IconStyle>
   </Style>
+
+  <Style id="TrackLineColourTesting">
+    <LineStyle>
+        <color>501400FF</color>
+        <width>10</width>
+    </LineStyle>
+  </Style>
+
   <Placemark>
    <name>GPS Logger</name>
    <description>Track: 20161001-154938 </description>
@@ -726,7 +736,7 @@
     <Placemark>
        <name>GPS Logger</name>
        <description>Track: 20161001-155937 </description>
-       <styleUrl>#TrackLineAndPoly</styleUrl>
+       <styleUrl>#TrackLineColourTesting</styleUrl>
        <LineString>
         <extrude>0</extrude>
         <tessellate>0</tessellate>
