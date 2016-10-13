@@ -1,6 +1,8 @@
 package bit.com.pathmapper.Activities;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,7 +12,11 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -18,6 +24,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import bit.com.pathmapper.R;
 
@@ -25,9 +32,11 @@ import bit.com.pathmapper.R;
  * Created by tsgar on 27/09/2016.
  */
 
-public abstract class BaseMapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public abstract class BaseMapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
     private GoogleMap map;
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
 
     protected int getLayoutID() { return  R.layout.map; }
 
@@ -38,7 +47,6 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
         //Check if google services is currently installed
         if(googleServicesAvailable())
         {
-            Toast.makeText(this, "Google Service is Available", Toast.LENGTH_LONG).show();
             setContentView(getLayoutID());
             setUpMap();
         }
@@ -60,7 +68,7 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
             return;
         }
         map = gMap;
-
+        map.setMyLocationEnabled(true);
         start();
         setOverlay();
         googleAPIConnection();
@@ -95,7 +103,6 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
 
     public void googleAPIConnection()
     {
-        GoogleApiClient mGoogleApiClient;
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
@@ -128,8 +135,16 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
 
     }
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
+    public void onConnected( Bundle bundle)
+    {
+        //Request user location
+        mLocationRequest = LocationRequest.create();
+        //Set location priority to high. Use all available assets to get the most accurate location. GPS, Mobile data (If available)
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        //Set location update interval
+        mLocationRequest.setInterval(100);
 
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
     }
 
     @Override
@@ -139,6 +154,13 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    //When location is changed
+    @Override
+    public void onLocationChanged(Location location) {
+
 
     }
 }
