@@ -6,6 +6,10 @@ import android.support.v4.app.FragmentActivity;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.GroundOverlayOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 import bit.com.pathmapper.R;
 
@@ -39,6 +43,8 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
         }
         map = gMap;
         start();
+        setOverlay();
+
     }
 
     private void setUpMap() {
@@ -49,5 +55,21 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
 
     protected GoogleMap getMap() {
         return map;
+    }
+
+    public void setOverlay()
+    {
+        //Set the bounds of where the overlay will be
+        LatLngBounds polyBounds = new LatLngBounds(
+                new LatLng(-45.862595,170.515725),       // South west corner
+                new LatLng(-45.854140,170.527462));      // North east corner
+
+        //Create the ground the groundoverlay options
+        GroundOverlayOptions groundMap = new GroundOverlayOptions()
+                .image(BitmapDescriptorFactory.fromResource(R.drawable.botanic_overlay))
+                .positionFromBounds(polyBounds);
+
+        //Set the overly to the map
+        map.addGroundOverlay(groundMap);
     }
 }
