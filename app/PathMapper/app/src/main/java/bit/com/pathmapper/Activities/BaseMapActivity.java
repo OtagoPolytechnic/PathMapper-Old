@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -26,6 +27,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONException;
+
+import java.io.InputStream;
+import java.util.List;
+
+import bit.com.pathmapper.Models.ClusterMapMarker;
 import bit.com.pathmapper.R;
 
 /**
@@ -72,7 +79,6 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
         start();
         setOverlay();
         googleAPIConnection();
-
     }
 
     private void setUpMap() {
@@ -161,6 +167,36 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
     @Override
     public void onLocationChanged(Location location) {
 
+
+    }
+
+    public void checkNearby(Location location)
+    {
+        if(location!=null)
+        {
+            InputStream inputStream = getResources().openRawResource(R.raw.poi_areas);
+            List<ClusterMapMarker> items2 = null;
+            try {
+                items2 = new MyItemReader().read(inputStream);
+                Location target = new Location("target");
+                for(LatLng point : new LatLng[]{items2.get(0).getPosition(), items2.get(1).getPosition(), items2.get(2).getPosition(), items2.get(3).getPosition()}) {
+                    target.setLatitude(point.latitude);
+                    target.setLongitude(point.longitude);
+                    if(location.distanceTo(target) < 20) {
+                        Vibrator v = (Vibrator) this.getSystemService(this.VIBRATOR_SERVICE);
+                        // Vibrate for 500 milliseconds
+                        v.vibrate(new long[]{500}, -1);
+                        map.addMarker(new MarkerOptions().position(new LatLng(target.getLatitude(), target.getLongitude())).title("Near").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            Toast.makeText(this, "Caet Map", Toast.LENGTH_LONG).show();
+        }
 
     }
 }
