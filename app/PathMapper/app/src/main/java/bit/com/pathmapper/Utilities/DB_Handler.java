@@ -29,13 +29,26 @@ public class DB_Handler extends SQLiteOpenHelper
     private static final String KEY_COLLECTION_ID = "id";
     private static final String KEY_COLLECTION_NAME = "collectionName";
 
-    public DB_Handler(Context context) {
+    public DB_Handler(Context context)
+    {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase db)
+    {
+        //Creation of the Points of Interest Table
+        String CREATE_POI_TABLE = "CREATE TABLE " + TABLE_POI + "("
+        + KEY_POI_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
+        + KEY_SCI_NAME + " TEXT," + KEY_LAT + " INTEGER,"
+        + KEY_LNG + " INTEGER," + KEY_DESCRIPTION + " TEXT,"
+        + KEY_COLLECTION + " INTEGER" + ")";
+        db.execSQL(CREATE_POI_TABLE);
 
+        //Creation of the Collection Table
+        String CREATE_COLLECTION_TABLE = "CREATE TABLE " + TABLE_COLLECTION + "("
+        + KEY_COLLECTION_ID + " INTEGER PRIMARY KEY," + KEY_COLLECTION_NAME + " TEXT" + ")";
+        db.execSQL(CREATE_COLLECTION_TABLE);
     }
 
     @Override
