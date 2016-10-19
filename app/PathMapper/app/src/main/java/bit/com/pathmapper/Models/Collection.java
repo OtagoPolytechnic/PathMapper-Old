@@ -9,6 +9,9 @@ public class Collection
     private int id;
     private String collectionName;
 
+    public Collection() {
+    }
+
     public Collection(int id, String collectionName) {
         this.id = id;
         this.collectionName = collectionName;
