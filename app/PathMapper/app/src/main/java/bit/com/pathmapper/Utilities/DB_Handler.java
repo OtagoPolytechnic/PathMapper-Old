@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import bit.com.pathmapper.Models.Collection;
 import bit.com.pathmapper.Models.PointOfInterest;
 
@@ -121,6 +124,32 @@ public class DB_Handler extends SQLiteOpenHelper
                 cursor.getString(1));
         // return collection
         return collection;
+    }
+
+    // Getting All POIs
+    public List<PointOfInterest> getAllPOI() {
+        List<PointOfInterest> poiList = new ArrayList<PointOfInterest>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_POI;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                PointOfInterest poi = new PointOfInterest();
+                poi.setId(Integer.parseInt(cursor.getString(0)));
+                poi.setName(cursor.getString(1));
+                poi.setScientificName(cursor.getString(2));
+                poi.setLat(cursor.getInt(3));
+                poi.setLng(cursor.getInt(4));
+                poi.setDescription(cursor.getString(5));
+                poi.setCollection(cursor.getInt(6));
+                // Adding contact to list
+                poiList.add(poi);
+            } while (cursor.moveToNext());
+        }
+        // return contact list
+        return poiList;
     }
 
 

@@ -14,6 +14,10 @@ public class PointOfInterest {
     private String description;
     private int collection;
 
+    public PointOfInterest() {
+
+    }
+
     public PointOfInterest(int id, String name, String scientificName, double lat, double lng, String description, int collection) {
         this.id = id;
         this.name = name;
