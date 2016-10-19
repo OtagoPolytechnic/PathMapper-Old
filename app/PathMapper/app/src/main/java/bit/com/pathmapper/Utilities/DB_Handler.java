@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import bit.com.pathmapper.Models.Collection;
 import bit.com.pathmapper.Models.PointOfInterest;
 
 /**
@@ -78,6 +79,18 @@ public class DB_Handler extends SQLiteOpenHelper
 
         // Inserting Row
         db.insert(TABLE_POI, null, values);
+        db.close(); // Closing database connection
+    }
+
+    //Add new Collection
+    public void addCollection (Collection collection)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, collection.getCollectionName()); // Collection Name
+
+        // Inserting Row
+        db.insert(TABLE_COLLECTION, null, values);
         db.close(); // Closing database connection
     }
 }
