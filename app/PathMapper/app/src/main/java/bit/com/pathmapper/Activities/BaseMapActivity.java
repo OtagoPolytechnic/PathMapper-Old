@@ -2,12 +2,18 @@ package bit.com.pathmapper.Activities;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.FragmentManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -90,6 +96,20 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
     protected GoogleMap getMap() {
         return map;
     }
+
+
+    //Start of Menu functions
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.colour_menu_list, menu);
+        for (int i = 0; i < menu.size(); i++)
+        {
+            menu.getItem(i).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+    //End of Menu functions
 
     public void setOverlay()
     {
