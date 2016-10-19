@@ -1,8 +1,11 @@
 package bit.com.pathmapper.Utilities;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import bit.com.pathmapper.Models.PointOfInterest;
 
 /**
  * Created by jacksct1 on 20/10/2016.
@@ -59,5 +62,22 @@ public class DB_Handler extends SQLiteOpenHelper
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_COLLECTION);
         // Creating tables again
         onCreate(db);
+    }
+
+    //Add new POI
+    public void addPOI (PointOfInterest pointOfInterest)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, pointOfInterest.getName()); // POI Name
+        values.put(KEY_SCI_NAME, pointOfInterest.getScientificName()); // POI Scientific Name
+        values.put(KEY_LAT, pointOfInterest.getLat()); // POI Latitude
+        values.put(KEY_LNG, pointOfInterest.getLng()); // POI Longitude
+        values.put(KEY_DESCRIPTION, pointOfInterest.getDescription()); // POI Description
+        values.put(KEY_COLLECTION, pointOfInterest.getCollection()); // POI Collection
+
+        // Inserting Row
+        db.insert(TABLE_POI, null, values);
+        db.close(); // Closing database connection
     }
 }
