@@ -7,9 +7,9 @@ package bit.com.pathmapper.Models;
 public class Collection
 {
     private int id;
-    private int collectionName;
+    private String collectionName;
 
-    public Collection(int id, int collectionName) {
+    public Collection(int id, String collectionName) {
         this.id = id;
         this.collectionName = collectionName;
     }
@@ -22,11 +22,11 @@ public class Collection
         this.id = id;
     }
 
-    public int getCollectionName() {
+    public String getCollectionName() {
         return collectionName;
     }
 
-    public void setCollectionName(int collectionName) {
+    public void setCollectionName(String collectionName) {
         this.collectionName = collectionName;
     }
 }
