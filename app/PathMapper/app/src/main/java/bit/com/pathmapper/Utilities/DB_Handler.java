@@ -2,6 +2,7 @@ package bit.com.pathmapper.Utilities;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -93,4 +94,19 @@ public class DB_Handler extends SQLiteOpenHelper
         db.insert(TABLE_COLLECTION, null, values);
         db.close(); // Closing database connection
     }
+
+    // Getting one shop
+    public PointOfInterest getPOI(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_POI, new String[] { KEY_POI_ID,
+                        KEY_NAME, KEY_SCI_NAME, KEY_LAT, KEY_LNG, KEY_DESCRIPTION, KEY_COLLECTION }, KEY_POI_ID + "=?",
+                new String[] { String.valueOf(id) }, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        PointOfInterest poi = new PointOfInterest(Integer.parseInt(cursor.getString(0)),
+                cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getDouble(4), cursor.getString(5), cursor.getInt(2));
+        // return poi
+        return poi;
+    }
+
 }
