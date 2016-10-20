@@ -19,6 +19,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import bit.com.pathmapper.Activities.BaseMapActivity;
+import bit.com.pathmapper.Models.Collection;
 
 /**
  * Created by jacksct1 on 18/10/2016.
@@ -103,12 +104,13 @@ public class DB_Sync
                 {
                     JSONObject collection = collections.getJSONObject(i);
                     String id = collection.getString("id");
-
+                    String name = collection.getString("name");
+                    DB_Handler db = new DB_Handler(context);
+                    db.addCollection(new Collection(Integer.parseInt(id), name));
+                    
                     Log.e("Key Test Collections  ", id);
-
-
                 }
-                
+
 
             }
             catch (JSONException e)
