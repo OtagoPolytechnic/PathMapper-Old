@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import bit.com.pathmapper.Activities.BaseMapActivity;
 import bit.com.pathmapper.Models.Collection;
+import bit.com.pathmapper.Models.PointOfInterest;
 
 /**
  * Created by jacksct1 on 18/10/2016.
@@ -107,8 +108,23 @@ public class DB_Sync
                     String name = collection.getString("name");
                     DB_Handler db = new DB_Handler(context);
                     db.addCollection(new Collection(Integer.parseInt(id), name));
-                    
-                    Log.e("Key Test Collections  ", id);
+                }
+
+                JSONArray interestPoints = pointsOfInterest.getJSONArray("InterestPoints");
+                int nPoints = interestPoints.length();
+                for (int i = 0; i<nPoints; i++)
+                {
+                    JSONObject iPoints = interestPoints.getJSONObject(i);
+                    String id = iPoints.getString("id");
+                    String name = iPoints.getString("name");
+                    String scientific_name = iPoints.getString("scientific_name");
+                    String lat = iPoints.getString("lat");
+                    String lng = iPoints.getString("lng");
+                    String description = iPoints.getString("description");
+                    String collectionID = iPoints.getString("collection");
+
+                    DB_Handler db = new DB_Handler(context);
+                    db.addPOI(new PointOfInterest(Integer.parseInt(id), name, scientific_name, Double.parseDouble(lat), Double.parseDouble(lng), description,Integer.parseInt(collectionID)));
                 }
 
 
@@ -123,4 +139,5 @@ public class DB_Sync
 
 
     }
+
 }
