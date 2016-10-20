@@ -10,6 +10,7 @@ import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,7 +48,7 @@ import bit.com.pathmapper.R;
  * Created by tsgar on 27/09/2016.
  */
 
-public abstract class BaseMapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
+public abstract class BaseMapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
     private GoogleMap map;
     private GoogleApiClient mGoogleApiClient;
@@ -63,7 +64,6 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //Check if google services is currently installed
         if(googleServicesAvailable())
         {
