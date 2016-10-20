@@ -171,7 +171,7 @@ public class DB_Handler extends SQLiteOpenHelper
     public List<PointOfInterest> getAllCollectionPOI(int id) {
         List<PointOfInterest> poiList = new ArrayList<PointOfInterest>();
         // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_POI + "WHERE " + KEY_COLLECTION + "= " + id;
+        String selectQuery = "SELECT * FROM " + TABLE_POI + " WHERE " + KEY_COLLECTION + " = " + id;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         // looping through all rows and adding to list
