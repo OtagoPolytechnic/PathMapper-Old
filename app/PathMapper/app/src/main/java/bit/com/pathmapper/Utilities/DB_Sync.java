@@ -98,11 +98,17 @@ public class DB_Sync
                 JSONObject pointsOfInterest = new JSONObject(fetchedString);
 
                 JSONArray collections = pointsOfInterest.getJSONArray("Collections");
+                int nCollections = collections.length();
+                for (int i = 0; i<nCollections; i++)
+                {
+                    JSONObject collection = collections.getJSONObject(i);
+                    String id = collection.getString("id");
 
-                //JSONObject interestPoints = pointsOfInterest.getJSONObject("InterestPoints");
-                Log.e("Points Test", collections.toString());
+                    Log.e("Key Test Collections  ", id);
 
 
+                }
+                
 
             }
             catch (JSONException e)

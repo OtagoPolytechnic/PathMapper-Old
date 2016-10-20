@@ -47,7 +47,7 @@ public class DB_Handler extends SQLiteOpenHelper
     {
         //Creation of the Points of Interest Table
         String CREATE_POI_TABLE = "CREATE TABLE " + TABLE_POI + "("
-        + KEY_POI_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
+        + KEY_POI_ID + " INTEGER," + KEY_NAME + " TEXT,"
         + KEY_SCI_NAME + " TEXT," + KEY_LAT + " INTEGER,"
         + KEY_LNG + " INTEGER," + KEY_DESCRIPTION + " TEXT,"
         + KEY_COLLECTION + " INTEGER" + ")";
@@ -55,7 +55,7 @@ public class DB_Handler extends SQLiteOpenHelper
 
         //Creation of the Collection Table
         String CREATE_COLLECTION_TABLE = "CREATE TABLE " + TABLE_COLLECTION + "("
-        + KEY_COLLECTION_ID + " INTEGER PRIMARY KEY," + KEY_COLLECTION_NAME + " TEXT" + ")";
+        + KEY_COLLECTION_ID + " INTEGER," + KEY_COLLECTION_NAME + " TEXT" + ")";
         db.execSQL(CREATE_COLLECTION_TABLE);
     }
 
