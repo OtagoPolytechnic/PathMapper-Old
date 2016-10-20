@@ -206,5 +206,12 @@ public class DB_Handler extends SQLiteOpenHelper
         db.close();
     }
 
+    // Deleting a Collection
+    public void deleteCollection(Collection collection) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_COLLECTION, KEY_COLLECTION_ID + " = ?",
+                new String[] { String.valueOf(collection.getId()) });
+        db.close();
+    }
 
 }
