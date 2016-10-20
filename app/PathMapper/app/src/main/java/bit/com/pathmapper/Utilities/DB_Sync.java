@@ -54,7 +54,7 @@ public class DB_Sync
             try
             {
                 //Add URL-------------------------------------
-                String urlString = "";
+                String urlString = "http://jacksct1.pythonanywhere.com/points";
 
                 URL URLObject = new URL(urlString);
                 HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
@@ -96,6 +96,10 @@ public class DB_Sync
             try
             {
                 JSONObject pointsOfInterest = new JSONObject(fetchedString);
+                JSONObject interestPoints = pointsOfInterest.getJSONObject("InterestPoints");
+                Log.e("Points Test", interestPoints.toString());
+                JSONObject collections = pointsOfInterest.getJSONObject("Collections");
+
 
             }
             catch (JSONException e)

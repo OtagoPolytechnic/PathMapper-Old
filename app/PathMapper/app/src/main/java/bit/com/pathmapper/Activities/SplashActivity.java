@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.util.Log;
 
 import bit.com.pathmapper.R;
+import bit.com.pathmapper.Utilities.DB_Sync;
 
 public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        DB_Sync backendSync = new DB_Sync(getApplicationContext());
 
         //Loads and runs the main PathMapper activity
             Intent intent = new Intent(this, PathMapperActivity.class);
