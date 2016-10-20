@@ -60,7 +60,6 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
         {
             setContentView(getLayoutID());
             setUpMap();
-            testDB();
         }
         else
         {
@@ -207,45 +206,5 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
 
     }
 
-    public void testDB()
-    {
-        DB_Handler db = new DB_Handler(getApplicationContext());
 
-        db.addPOI(new PointOfInterest(1, "Fern", "Big Fernus", -12.2333, 127.8383, "This is a Fern. It is green.", 1));
-        db.addPOI(new PointOfInterest(2, "Leaf", "Big Leafus", -12.2333, 127.8383, "This is a Leaf. It is green.", 1));
-        db.addPOI(new PointOfInterest(2, "^%#*^@", "Big China", -12.2333, 127.8383, "This is a China. It is China.", 2));
-
-        db.addCollection(new Collection(1, "Africa"));
-        db.addCollection(new Collection(1, "China"));
-
-        List<PointOfInterest> shops = db.getAllPOI();
-        for (PointOfInterest shop : shops) {
-            String log = "Id: " + shop.getId() + " ,Name: " + shop.getName() + " ,Address: " + shop.getScientificName() + " ,Scientific Name: " + shop.getScientificName() + " CollectionID: " + shop.getCollection();
-            Log.e("Add POI and get All", log);
-        }
-
-        List<Collection> cols = db.getAllCollections();
-        for (Collection col : cols) {
-            String log2 = "Id: " + col.getId() + " ,Name: " + col.getCollectionName();
-            Log.e("Add coll and get all", log2);
-        }
-
-        PointOfInterest updatedPOI = db.getPOI(3);
-        updatedPOI.setName("Cloud");
-        db.updatePOI(updatedPOI);
-        PointOfInterest updatedAndRetrieve = db.getPOI(3);
-
-        String log3 = "Id: " + updatedAndRetrieve.getId() + " ,Name: " + updatedAndRetrieve.getName() + " ,Address: " + updatedAndRetrieve.getScientificName() + " ,Scientific Name: " + updatedAndRetrieve.getScientificName() + " CollectionID: " + updatedAndRetrieve.getCollection();
-        Log.e("Updated", log3);
-
-        List<PointOfInterest> specifics = db.getAllCollectionPOI(1);
-        for (PointOfInterest specific : specifics) {
-            String log5 = "Id: " + specific.getId() + " ,Name: " + specific.getName() + " ,Address: " + specific.getScientificName() + " ,Scientific Name: " + specific.getScientificName() + " CollectionID: " + specific.getCollection();
-            Log.e("Add POI and get All", log5);
-        }
-
-
-
-
-    }
 }
