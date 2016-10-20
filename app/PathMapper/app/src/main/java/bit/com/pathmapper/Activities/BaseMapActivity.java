@@ -8,6 +8,7 @@ import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -33,7 +34,10 @@ import java.io.InputStream;
 import java.util.List;
 
 import bit.com.pathmapper.Models.ClusterMapMarker;
+import bit.com.pathmapper.Models.Collection;
+import bit.com.pathmapper.Models.PointOfInterest;
 import bit.com.pathmapper.R;
+import bit.com.pathmapper.Utilities.DB_Handler;
 
 /**
  * Created by tsgar on 27/09/2016.
@@ -56,6 +60,7 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
         {
             setContentView(getLayoutID());
             setUpMap();
+            testDB();
         }
         else
         {
@@ -79,6 +84,8 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
         start();
         setOverlay();
         googleAPIConnection();
+
+
     }
 
     private void setUpMap() {
@@ -195,8 +202,42 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
         }
         else
         {
-            Toast.makeText(this, "Caet Map", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Can't find Location", Toast.LENGTH_LONG).show();
         }
+
+    }
+
+    public void testDB()
+    {
+        DB_Handler db = new DB_Handler(getApplicationContext());
+
+        db.addPOI(new PointOfInterest(1, "Fern", "Big Fernus", -12.2333, 127.8383, "This is a Fern. It is green.", 1));
+        db.addPOI(new PointOfInterest(2, "Leaf", "Big Leafus", -12.2333, 127.8383, "This is a Leaf. It is green.", 1));
+
+        db.addCollection(new Collection(1, "Africa"));
+
+        List<PointOfInterest> shops = db.getAllPOI();
+        for (PointOfInterest shop : shops) {
+            String log = "Id: " + shop.getId() + " ,Name: " + shop.getName() + " ,Address: " + shop.getScientificName() + " ,Scientific Name: " + shop.getScientificName();
+            Log.e("Add POI and get All", log);
+        }
+
+        List<Collection> cols = db.getAllCollections();
+        for (Collection col : cols) {
+            String log2 = "Id: " + col.getId() + " ,Name: " + col.getCollectionName();
+            Log.e("Add coll and get all", log2);
+        }
+
+        PointOfInterest updatedPOI = db.getPOI(3);
+        updatedPOI.setName("Cloud");
+        db.updatePOI(updatedPOI);
+        PointOfInterest updatedAndRetrieve = db.getPOI(3);
+
+        String log3 = "Id: " + updatedAndRetrieve.getId() + " ,Name: " + updatedAndRetrieve.getName() + " ,Address: " + updatedAndRetrieve.getScientificName() + " ,Scientific Name: " + updatedAndRetrieve.getScientificName();
+        Log.e("Updated", log3);
+
+
+
 
     }
 }

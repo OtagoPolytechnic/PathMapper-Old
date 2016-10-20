@@ -91,7 +91,7 @@ public class DB_Handler extends SQLiteOpenHelper
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, collection.getCollectionName()); // Collection Name
+        values.put(KEY_COLLECTION_NAME, collection.getCollectionName()); // Collection Name
 
         // Inserting Row
         db.insert(TABLE_COLLECTION, null, values);
@@ -100,30 +100,45 @@ public class DB_Handler extends SQLiteOpenHelper
 
     // Getting one shop
     public PointOfInterest getPOI(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_POI, new String[] { KEY_POI_ID,
-                        KEY_NAME, KEY_SCI_NAME, KEY_LAT, KEY_LNG, KEY_DESCRIPTION, KEY_COLLECTION }, KEY_POI_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
-        PointOfInterest poi = new PointOfInterest(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getDouble(4), cursor.getString(5), cursor.getInt(2));
-        // return poi
-        return poi;
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.query(TABLE_POI, new String[] { KEY_POI_ID,
+                            KEY_NAME, KEY_SCI_NAME, KEY_LAT, KEY_LNG, KEY_DESCRIPTION, KEY_COLLECTION }, KEY_POI_ID + "=?",
+                    new String[] { String.valueOf(id) }, null, null, null, null);
+            if (cursor != null)
+                cursor.moveToFirst();
+            PointOfInterest poi = new PointOfInterest(Integer.parseInt(cursor.getString(0)),
+                    cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getDouble(4), cursor.getString(5), cursor.getInt(2));
+            // return poi
+            return poi;
+        }
+        catch(IndexOutOfBoundsException e)
+        {
+            return null;
+        }
+
     }
 
     // Getting one collection
     public Collection getCollection(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_POI, new String[] { KEY_COLLECTION_ID,
-                        KEY_COLLECTION_NAME }, KEY_COLLECTION_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
-        Collection collection = new Collection(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1));
-        // return collection
-        return collection;
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.query(TABLE_POI, new String[]{KEY_COLLECTION_ID,
+                            KEY_COLLECTION_NAME}, KEY_COLLECTION_ID + "=?",
+                    new String[]{String.valueOf(id)}, null, null, null, null);
+            if (cursor != null)
+                cursor.moveToFirst();
+            Collection collection = new Collection(Integer.parseInt(cursor.getString(0)),
+                    cursor.getString(1));
+            // return collection
+            return collection;
+        }
+        catch(IndexOutOfBoundsException e)
+        {
+            return null;
+        }
+
     }
 
     // Getting All POIs
