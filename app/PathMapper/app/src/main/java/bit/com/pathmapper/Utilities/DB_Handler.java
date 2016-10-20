@@ -188,6 +188,16 @@ public class DB_Handler extends SQLiteOpenHelper
                 new String[]{String.valueOf(pointOfInterest.getId())});
     }
 
+    // Updating a POI
+    public int updateCollection(Collection collection) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, collection.getCollectionName()); // Collection Name
+        // updating row
+        return db.update(TABLE_POI, values, KEY_POI_ID + " = ?",
+                new String[]{String.valueOf(collection.getId())});
+    }
+
 
 
 }
