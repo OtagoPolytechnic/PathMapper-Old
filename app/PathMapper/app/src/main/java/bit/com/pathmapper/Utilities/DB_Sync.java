@@ -1,5 +1,6 @@
 package bit.com.pathmapper.Utilities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -16,9 +17,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
-import bit.com.pathmapper.Activities.BaseMapActivity;
+import bit.com.pathmapper.Activities.SplashActivity;
 import bit.com.pathmapper.Models.Collection;
 import bit.com.pathmapper.Models.PointOfInterest;
 
@@ -46,6 +46,13 @@ public class DB_Sync
         public WebService(Context context)
         {
             mContext = context;
+
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
         }
 
         @Override
@@ -55,7 +62,7 @@ public class DB_Sync
 
             try
             {
-                //Add URL-------------------------------------
+                //URL-------------------------------------------------------------
                 String urlString = "http://jacksct1.pythonanywhere.com/points";
 
                 URL URLObject = new URL(urlString);
@@ -127,17 +134,17 @@ public class DB_Sync
                     db.addPOI(new PointOfInterest(Integer.parseInt(id), name, scientific_name, Double.parseDouble(lat), Double.parseDouble(lng), description,Integer.parseInt(collectionID)));
                 }
 
-
             }
             catch (JSONException e)
             {
                 Log.e("JSON exception:  ", e.getMessage());
             }
 
-
         }
 
 
     }
+
+
 
 }
