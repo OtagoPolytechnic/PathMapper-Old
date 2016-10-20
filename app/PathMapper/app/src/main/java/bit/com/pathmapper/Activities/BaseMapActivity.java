@@ -8,6 +8,7 @@ import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -33,7 +34,10 @@ import java.io.InputStream;
 import java.util.List;
 
 import bit.com.pathmapper.Models.ClusterMapMarker;
+import bit.com.pathmapper.Models.Collection;
+import bit.com.pathmapper.Models.PointOfInterest;
 import bit.com.pathmapper.R;
+import bit.com.pathmapper.Utilities.DB_Handler;
 
 /**
  * Created by tsgar on 27/09/2016.
@@ -79,6 +83,8 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
         start();
         setOverlay();
         googleAPIConnection();
+
+
     }
 
     private void setUpMap() {
@@ -195,8 +201,10 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
         }
         else
         {
-            Toast.makeText(this, "Caet Map", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Can't find Location", Toast.LENGTH_LONG).show();
         }
 
     }
+
+
 }
