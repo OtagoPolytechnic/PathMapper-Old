@@ -8,23 +8,22 @@ import android.os.Bundle;
 
 import bit.com.pathmapper.R;
 
-
 /**
- * Created by tsgar on 20/10/2016.
+ * Created by Nikaela on 21/10/2016.
  */
 
-public class Hours extends DialogFragment {
-
-    public Hours(){}
+public class Medium extends DialogFragment
+{
+    public Medium() {}
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        AlertDialog.Builder hourBuilder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder mediumBuilder = new AlertDialog.Builder(getActivity());
 
-        hourBuilder.setIcon(R.drawable.info);
-        hourBuilder.setTitle("Information");
-        hourBuilder.setItems(R.array.hoursArray, new DialogInterface.OnClickListener() {
+        mediumBuilder.setIcon(R.drawable.orange);
+        mediumBuilder.setTitle("Medium Tracks");
+        mediumBuilder.setItems(R.array.mediumArray, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
@@ -32,7 +31,7 @@ public class Hours extends DialogFragment {
             }
         });
 
-        Dialog customDialog = hourBuilder.create();
+        Dialog customDialog = mediumBuilder.create();
         customDialog.setCanceledOnTouchOutside(true);
 
         return customDialog;

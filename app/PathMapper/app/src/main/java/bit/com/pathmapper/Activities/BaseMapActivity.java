@@ -39,8 +39,13 @@ import org.json.JSONException;
 import java.io.InputStream;
 import java.util.List;
 
+import bit.com.pathmapper.AlertDialogs.Easy;
+import bit.com.pathmapper.AlertDialogs.Hard;
+import bit.com.pathmapper.AlertDialogs.Medium;
+import bit.com.pathmapper.AlertDialogs.Prohibited;
 import bit.com.pathmapper.AlertDialogs.Season;
 import bit.com.pathmapper.AlertDialogs.Hours;
+import bit.com.pathmapper.AlertDialogs.Statistics;
 import bit.com.pathmapper.Models.ClusterMapMarker;
 import bit.com.pathmapper.R;
 
@@ -56,6 +61,11 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
 
     Hours hoursAlert;
     Season seasonAlert;
+    Statistics statisticAlert;
+    Prohibited prohibitedAlert;
+    Easy easyAlert;
+    Medium mediumAlert;
+    Hard hardAlert;
 
     protected int getLayoutID() { return  R.layout.map; }
 
@@ -132,6 +142,36 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
                 seasonAlert = new Season();
                 FragmentManager fm2 = getFragmentManager();
                 seasonAlert.show(fm2, "confirm");
+                break;
+
+            case "Garden Statistics":
+                statisticAlert = new Statistics();
+                FragmentManager fm3 = getFragmentManager();
+                statisticAlert.show(fm3, "confirm");
+                break;
+
+            case "Prohibited Items":
+                prohibitedAlert = new Prohibited();
+                FragmentManager fm4 = getFragmentManager();
+                prohibitedAlert.show(fm4, "confirm");
+                break;
+
+            case "Easy":
+                easyAlert = new Easy();
+                FragmentManager fm5 = getFragmentManager();
+                easyAlert.show(fm5, "confirm");
+                break;
+
+            case "Medium":
+                mediumAlert = new Medium();
+                FragmentManager fm6 = getFragmentManager();
+                mediumAlert.show(fm6, "confirm");
+                break;
+
+            case "Hard":
+                hardAlert = new Hard();
+                FragmentManager fm7 = getFragmentManager();
+                hardAlert.show(fm7, "confirm");
                 break;
         }
 

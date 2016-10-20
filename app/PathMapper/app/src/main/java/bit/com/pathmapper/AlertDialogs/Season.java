@@ -21,7 +21,7 @@ public class Season extends DialogFragment {
     {
         AlertDialog.Builder seasonBuilder = new AlertDialog.Builder(getActivity());
 
-        seasonBuilder.setIcon(R.drawable.information);
+        seasonBuilder.setIcon(R.drawable.info);
         seasonBuilder.setTitle("Seasonal Attractions");
         seasonBuilder.setItems(R.array.seasonalArray, new DialogInterface.OnClickListener() {
             @Override
