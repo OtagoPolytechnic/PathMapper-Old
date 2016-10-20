@@ -53,8 +53,6 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
     private GoogleMap map;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
-    ImageView colourSquare;
-
 
     Hours hoursAlert;
     Season seasonAlert;
@@ -120,13 +118,7 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        colourSquare = (ImageView)findViewById(R.id.imageView);
-
-        int itemID = item.getItemId();
         String itemTitle = (String) item.getTitle();
-
-        colourSquare.setImageBitmap(null);
-        int displayColour = Color.WHITE;
 
         switch(itemTitle)
         {
@@ -142,8 +134,6 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
                 seasonAlert.show(fm2, "confirm");
                 break;
         }
-
-        colourSquare.setBackgroundColor(displayColour);
 
         return true;
     }
