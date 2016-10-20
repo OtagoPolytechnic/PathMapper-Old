@@ -188,7 +188,7 @@ public class DB_Handler extends SQLiteOpenHelper
                 new String[]{String.valueOf(pointOfInterest.getId())});
     }
 
-    // Updating a POI
+    // Updating a Collection
     public int updateCollection(Collection collection) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -198,6 +198,13 @@ public class DB_Handler extends SQLiteOpenHelper
                 new String[]{String.valueOf(collection.getId())});
     }
 
+    // Deleting a POI
+    public void deletePOI(PointOfInterest pointOfInterest) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_POI, KEY_POI_ID + " = ?",
+                new String[] { String.valueOf(pointOfInterest.getId()) });
+        db.close();
+    }
 
 
 }
