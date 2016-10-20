@@ -148,8 +148,44 @@ public class DB_Handler extends SQLiteOpenHelper
                 poiList.add(poi);
             } while (cursor.moveToNext());
         }
-        // return contact list
+        // return poi list
         return poiList;
+    }
+
+    // Getting All Collections
+    public List<Collection> getAllCollections() {
+        List<Collection> collectionList = new ArrayList<Collection>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_COLLECTION;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Collection collection = new Collection();
+                collection.setId(Integer.parseInt(cursor.getString(0)));
+                collection.setCollectionName(cursor.getString(1));
+                // Adding contact to list
+                collectionList.add(collection);
+            } while (cursor.moveToNext());
+        }
+        // return collections list
+        return collectionList;
+    }
+
+    // Updating a POI
+    public int updatePOI(PointOfInterest pointOfInterest) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, pointOfInterest.getName()); // POI Name
+        values.put(KEY_SCI_NAME, pointOfInterest.getScientificName()); // POI Scientific Name
+        values.put(KEY_LAT, pointOfInterest.getLat()); // POI Latitude
+        values.put(KEY_LNG, pointOfInterest.getLng()); // POI Longitude
+        values.put(KEY_DESCRIPTION, pointOfInterest.getDescription()); // POI Description
+        values.put(KEY_COLLECTION, pointOfInterest.getCollection()); // POI Collection
+        // updating row
+        return db.update(TABLE_POI, values, KEY_POI_ID + " = ?",
+                new String[]{String.valueOf(pointOfInterest.getId())});
     }
 
 
