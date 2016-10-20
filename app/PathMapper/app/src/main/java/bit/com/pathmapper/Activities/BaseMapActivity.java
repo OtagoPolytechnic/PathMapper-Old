@@ -38,6 +38,8 @@ import org.json.JSONException;
 import java.io.InputStream;
 import java.util.List;
 
+import bit.com.pathmapper.AlertDialogs.Season;
+import bit.com.pathmapper.AlertDialogs.Hours;
 import bit.com.pathmapper.Models.ClusterMapMarker;
 import bit.com.pathmapper.R;
 
@@ -50,6 +52,11 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
     private GoogleMap map;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+    ImageView colourSquare;
+
+
+    Hours hoursAlert;
+    Season seasonAlert;
 
     protected int getLayoutID() { return  R.layout.map; }
 
@@ -108,6 +115,37 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
             menu.getItem(i).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        colourSquare = (ImageView)findViewById(R.id.imageView);
+
+        int itemID = item.getItemId();
+        String itemTitle = (String) item.getTitle();
+
+        colourSquare.setImageBitmap(null);
+        int displayColour = Color.WHITE;
+
+        switch(itemTitle)
+        {
+            case "Hours":
+                hoursAlert = new Hours();
+                FragmentManager fm = getFragmentManager();
+                hoursAlert.show(fm, "confirm");
+                break;
+
+            case "Seasonal Attractions":
+                seasonAlert = new Season();
+                FragmentManager fm2 = getFragmentManager();
+                seasonAlert.show(fm2, "confirm");
+                break;
+        }
+
+        colourSquare.setBackgroundColor(displayColour);
+
+        return true;
     }
     //End of Menu functions
 
