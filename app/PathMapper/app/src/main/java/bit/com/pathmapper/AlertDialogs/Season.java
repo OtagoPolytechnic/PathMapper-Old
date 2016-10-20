@@ -32,6 +32,7 @@ public class Season extends DialogFragment {
         });
 
         Dialog customDialog = seasonBuilder.create();
+        customDialog.setCanceledOnTouchOutside(true);
 
         return customDialog;
     }

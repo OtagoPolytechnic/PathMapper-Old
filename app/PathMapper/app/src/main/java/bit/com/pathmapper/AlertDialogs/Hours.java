@@ -20,11 +20,11 @@ public class Hours extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        AlertDialog.Builder seasonBuilder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder hourBuilder = new AlertDialog.Builder(getActivity());
 
-        seasonBuilder.setIcon(R.drawable.information);
-        seasonBuilder.setTitle("Seasonal Attractions");
-        seasonBuilder.setItems(R.array.seasonalArray, new DialogInterface.OnClickListener() {
+        hourBuilder.setIcon(R.drawable.information);
+        hourBuilder.setTitle("Information");
+        hourBuilder.setItems(R.array.hoursArray, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
@@ -32,7 +32,8 @@ public class Hours extends DialogFragment {
             }
         });
 
-        Dialog customDialog = seasonBuilder.create();
+        Dialog customDialog = hourBuilder.create();
+        customDialog.setCanceledOnTouchOutside(true);
 
         return customDialog;
     }
