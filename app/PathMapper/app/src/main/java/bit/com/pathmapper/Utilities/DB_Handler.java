@@ -167,6 +167,32 @@ public class DB_Handler extends SQLiteOpenHelper
         return poiList;
     }
 
+    // Getting All POIs
+    public List<PointOfInterest> getAllCollectionPOI(int id) {
+        List<PointOfInterest> poiList = new ArrayList<PointOfInterest>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_POI + "WHERE " + KEY_COLLECTION + "= " + id;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                PointOfInterest poi = new PointOfInterest();
+                poi.setId(Integer.parseInt(cursor.getString(0)));
+                poi.setName(cursor.getString(1));
+                poi.setScientificName(cursor.getString(2));
+                poi.setLat(cursor.getInt(3));
+                poi.setLng(cursor.getInt(4));
+                poi.setDescription(cursor.getString(5));
+                poi.setCollection(cursor.getInt(6));
+                // Adding contact to list
+                poiList.add(poi);
+            } while (cursor.moveToNext());
+        }
+        // return poi list
+        return poiList;
+    }
+
     // Getting All Collections
     public List<Collection> getAllCollections() {
         List<Collection> collectionList = new ArrayList<Collection>();
