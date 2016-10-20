@@ -96,9 +96,12 @@ public class DB_Sync
             try
             {
                 JSONObject pointsOfInterest = new JSONObject(fetchedString);
-                JSONObject interestPoints = pointsOfInterest.getJSONObject("InterestPoints");
-                Log.e("Points Test", interestPoints.toString());
-                JSONObject collections = pointsOfInterest.getJSONObject("Collections");
+
+                JSONArray collections = pointsOfInterest.getJSONArray("Collections");
+
+                //JSONObject interestPoints = pointsOfInterest.getJSONObject("InterestPoints");
+                Log.e("Points Test", collections.toString());
+
 
 
             }
