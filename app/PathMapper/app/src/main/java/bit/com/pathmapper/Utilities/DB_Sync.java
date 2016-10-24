@@ -2,6 +2,7 @@ package bit.com.pathmapper.Utilities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -129,7 +130,7 @@ public class DB_Sync
                     String lng = iPoints.getString("lng");
                     String description = iPoints.getString("description");
                     String collectionID = iPoints.getString("collection");
-
+                    Log.e("JSON exception:  ", lat);
                     DB_Handler db = new DB_Handler(context);
                     db.addPOI(new PointOfInterest(Integer.parseInt(id), name, scientific_name, Double.parseDouble(lat), Double.parseDouble(lng), description,Integer.parseInt(collectionID)));
                 }

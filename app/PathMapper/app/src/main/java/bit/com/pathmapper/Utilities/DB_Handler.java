@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +58,8 @@ public class DB_Handler extends SQLiteOpenHelper
         String CREATE_COLLECTION_TABLE = "CREATE TABLE " + TABLE_COLLECTION + "("
         + KEY_COLLECTION_ID + " INTEGER," + KEY_COLLECTION_NAME + " TEXT" + ")";
         db.execSQL(CREATE_COLLECTION_TABLE);
+
+
     }
 
     @Override
@@ -74,6 +77,7 @@ public class DB_Handler extends SQLiteOpenHelper
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(KEY_POI_ID, pointOfInterest.getId()); // POI Name
         values.put(KEY_NAME, pointOfInterest.getName()); // POI Name
         values.put(KEY_SCI_NAME, pointOfInterest.getScientificName()); // POI Scientific Name
         values.put(KEY_LAT, pointOfInterest.getLat()); // POI Latitude
@@ -91,6 +95,7 @@ public class DB_Handler extends SQLiteOpenHelper
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(KEY_COLLECTION_ID, collection.getId());
         values.put(KEY_COLLECTION_NAME, collection.getCollectionName()); // Collection Name
 
         // Inserting Row
@@ -167,13 +172,14 @@ public class DB_Handler extends SQLiteOpenHelper
         return poiList;
     }
 
-    // Getting All POIs
+    // Getting All POIs from a passed ocllection
     public List<PointOfInterest> getAllCollectionPOI(int id) {
         List<PointOfInterest> poiList = new ArrayList<PointOfInterest>();
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_POI + " WHERE " + KEY_COLLECTION + " = " + id;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
+
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {

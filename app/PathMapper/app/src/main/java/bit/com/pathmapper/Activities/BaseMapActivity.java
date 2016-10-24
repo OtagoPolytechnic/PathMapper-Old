@@ -2,6 +2,7 @@ package bit.com.pathmapper.Activities;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -31,6 +32,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONException;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import bit.com.pathmapper.Models.ClusterMapMarker;
@@ -83,6 +85,7 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
         start();
         setOverlay();
         googleAPIConnection();
+        retriveMarkers();
 
 
     }
@@ -92,6 +95,7 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
     }
 
     protected abstract void start();
+    protected abstract void retriveMarkers();
 
     protected GoogleMap getMap() {
         return map;
