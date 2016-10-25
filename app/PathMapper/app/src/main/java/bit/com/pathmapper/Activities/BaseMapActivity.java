@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.ClusterManager;
 
 import org.json.JSONException;
 
@@ -50,6 +51,7 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
     private GoogleMap map;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+    private ClusterManager<ClusterMapMarker> mClusterManager;
 
     protected int getLayoutID() { return  R.layout.map; }
 
@@ -86,6 +88,7 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
         setOverlay();
         googleAPIConnection();
         retriveMarkers();
+
 
 
     }
@@ -209,6 +212,8 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
         }
 
     }
+
+
 
 
 }

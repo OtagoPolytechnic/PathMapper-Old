@@ -18,6 +18,6 @@ public class ClusterMapMarker implements ClusterItem {
 
     @Override
     public LatLng getPosition() {
-        return null;
+        return position;
     }
 }

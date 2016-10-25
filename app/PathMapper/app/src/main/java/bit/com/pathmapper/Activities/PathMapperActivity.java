@@ -8,6 +8,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import bit.com.pathmapper.Interfaces.IMarkers;
@@ -54,18 +55,24 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
     {
         gMap = getMap();
         ClusterManager<ClusterMapMarker> mClusterManager = new ClusterManager<>(this, gMap);
+        getMap().setOnCameraIdleListener(mClusterManager);
+
         DB_Handler db = new DB_Handler(this);
         List<PointOfInterest> points = db.getAllPOI();
 
+        List<ClusterMapMarker> items = new ArrayList<ClusterMapMarker>();
+
         for (PointOfInterest poi : points)
         {
+            double lat = poi.getLat();
+            double lng = poi.getLng();
+            items.add(new ClusterMapMarker(lat, lng));
 
-            //ClusterMapMarker cluster = new ClusterMapMarker(poi.getLat(), poi.getLng());
-            //Log.e("Here, are you?", cluster.getPosition().toString());
-            Log.e("Here, are you?", Double.toString(poi.getLat()));
-            //Double.toString(Double.parseDouble(lat))
-            //mClusterManager.addItem(cluster);
+            Log.e("Cluster lat", Double.toString(lat));
+            Log.e("Cluster lmg", Double.toString(lng));
         }
+
+        mClusterManager.addItems(items);
     }
 
 
