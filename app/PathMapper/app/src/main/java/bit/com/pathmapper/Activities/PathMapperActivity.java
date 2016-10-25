@@ -26,6 +26,7 @@ import bit.com.pathmapper.Utilities.KmlParser;
 public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPaths{
 
     private GoogleMap gMap; //Might no be needed
+    private ClusterManager<ClusterMapMarker> mClusterManager;
 
     //Extends BaseMapActivity
     //Main logic for markers and paths / will create and use the utilities classes as necessary.
@@ -39,37 +40,53 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
     protected void start() {
         //Should start the map over the gardens information center.
         gMap = getMap();
+        mClusterManager = new ClusterManager<>(this, gMap);
+
         getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-45.856637, 170.518787), 15));
 
         KmlParser kmlParser = new KmlParser(gMap, this); //Initialize the KmlParser Class and pass it the map and the app context.
         kmlParser.RenderKmlPaths(); //Call the wrapper render function.
 
-        Log.e("Yay the thing happened", ".");
-
     }
 
-    //Retrieves all markers from JSON
-    //To be REPLACED by SQL query
     @Override
-    protected void retriveMarkers()
+    protected void showClusters()
     {
-        gMap = getMap();
-        ClusterManager<ClusterMapMarker> mClusterManager = new ClusterManager<>(this, gMap);
+        mClusterManager.clearItems();
         getMap().setOnCameraIdleListener(mClusterManager);
 
         DB_Handler db = new DB_Handler(this);
         List<PointOfInterest> points = db.getAllPOI();
 
         List<ClusterMapMarker> items = new ArrayList<ClusterMapMarker>();
+        for (PointOfInterest poi : points)
+        {
+            double lat = poi.getLat();
+            double lng = poi.getLng();
+            items.add(new ClusterMapMarker(lat, lng));
+        }
 
+        mClusterManager.addItems(items);
+    }
+
+    @Override
+    protected void showClustersByCollection(int collectionID)
+    {
+        mClusterManager.clearItems();
+        getMap().setOnCameraIdleListener(mClusterManager);
+
+        DB_Handler db = new DB_Handler(this);
+        List<PointOfInterest> points = db.getAllCollectionPOI(collectionID);
+
+        List<ClusterMapMarker> items = new ArrayList<ClusterMapMarker>();
         for (PointOfInterest poi : points)
         {
             double lat = poi.getLat();
             double lng = poi.getLng();
             items.add(new ClusterMapMarker(lat, lng));
 
-            Log.e("Cluster lat", Double.toString(lat));
-            Log.e("Cluster lmg", Double.toString(lng));
+            Log.e("Yay the thing happened", Double.toString(lat));
+            Log.e("Yay the thing happened", Double.toString(lng));
         }
 
         mClusterManager.addItems(items);

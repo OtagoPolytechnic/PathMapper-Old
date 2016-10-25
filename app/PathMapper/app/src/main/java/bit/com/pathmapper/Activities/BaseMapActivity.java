@@ -87,9 +87,8 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
         start();
         setOverlay();
         googleAPIConnection();
-        retriveMarkers();
-
-
+       // showClusters();
+        showClustersByCollection(7);
 
     }
 
@@ -98,7 +97,8 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
     }
 
     protected abstract void start();
-    protected abstract void retriveMarkers();
+    protected abstract void showClusters();
+    protected abstract void showClustersByCollection(int collectionID);
 
     protected GoogleMap getMap() {
         return map;
