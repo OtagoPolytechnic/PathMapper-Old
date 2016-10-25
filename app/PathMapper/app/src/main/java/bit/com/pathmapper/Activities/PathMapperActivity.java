@@ -63,6 +63,7 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
             //ClusterMapMarker cluster = new ClusterMapMarker(poi.getLat(), poi.getLng());
             //Log.e("Here, are you?", cluster.getPosition().toString());
             Log.e("Here, are you?", Double.toString(poi.getLat()));
+            //Double.toString(Double.parseDouble(lat))
             //mClusterManager.addItem(cluster);
         }
     }

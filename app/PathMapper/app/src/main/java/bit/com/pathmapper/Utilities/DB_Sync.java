@@ -130,7 +130,7 @@ public class DB_Sync
                     String lng = iPoints.getString("lng");
                     String description = iPoints.getString("description");
                     String collectionID = iPoints.getString("collection");
-                    Log.e("JSON exception:  ", lat);
+
                     DB_Handler db = new DB_Handler(context);
                     db.addPOI(new PointOfInterest(Integer.parseInt(id), name, scientific_name, Double.parseDouble(lat), Double.parseDouble(lng), description,Integer.parseInt(collectionID)));
                 }

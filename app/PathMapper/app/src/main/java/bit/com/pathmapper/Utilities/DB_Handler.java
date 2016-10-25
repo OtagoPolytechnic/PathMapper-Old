@@ -160,8 +160,8 @@ public class DB_Handler extends SQLiteOpenHelper
                 poi.setId(Integer.parseInt(cursor.getString(0)));
                 poi.setName(cursor.getString(1));
                 poi.setScientificName(cursor.getString(2));
-                poi.setLat(cursor.getInt(3));
-                poi.setLng(cursor.getInt(4));
+                poi.setLat(cursor.getDouble(3));
+                poi.setLng(cursor.getDouble(4));
                 poi.setDescription(cursor.getString(5));
                 poi.setCollection(cursor.getInt(6));
                 // Adding contact to list
