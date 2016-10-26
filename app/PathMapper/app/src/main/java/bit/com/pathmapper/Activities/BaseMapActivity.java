@@ -1,34 +1,22 @@
 package bit.com.pathmapper.Activities;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.FragmentManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-<<<<<<< HEAD
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ImageView;
-=======
-import android.util.Log;
->>>>>>> refs/remotes/origin/master
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -45,16 +33,13 @@ import java.util.List;
 
 import bit.com.pathmapper.AlertDialogs.Easy;
 import bit.com.pathmapper.AlertDialogs.Hard;
+import bit.com.pathmapper.AlertDialogs.Hours;
 import bit.com.pathmapper.AlertDialogs.Medium;
 import bit.com.pathmapper.AlertDialogs.Prohibited;
 import bit.com.pathmapper.AlertDialogs.Season;
-import bit.com.pathmapper.AlertDialogs.Hours;
 import bit.com.pathmapper.AlertDialogs.Statistics;
 import bit.com.pathmapper.Models.ClusterMapMarker;
-import bit.com.pathmapper.Models.Collection;
-import bit.com.pathmapper.Models.PointOfInterest;
 import bit.com.pathmapper.R;
-import bit.com.pathmapper.Utilities.DB_Handler;
 
 /**
  * Created by tsgar on 27/09/2016.
