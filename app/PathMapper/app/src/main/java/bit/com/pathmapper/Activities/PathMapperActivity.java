@@ -30,10 +30,7 @@ import bit.com.pathmapper.Utilities.KmlParser;
 
 public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPaths{
 
-    private GoogleMap gMap; //Might no be needed
-
-
-
+    private GoogleMap gMap;
 
     //Extends BaseMapActivity
     //Main logic for markers and paths / will create and use the utilities classes as necessary.
