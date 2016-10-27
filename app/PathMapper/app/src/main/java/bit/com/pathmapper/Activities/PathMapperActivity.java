@@ -91,6 +91,4 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
 
         mClusterManager.addItems(items);
     }
-
-
 }
