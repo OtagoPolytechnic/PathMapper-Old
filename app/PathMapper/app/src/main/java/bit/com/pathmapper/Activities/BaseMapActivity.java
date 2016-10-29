@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -43,7 +44,9 @@ import bit.com.pathmapper.AlertDialogs.Prohibited;
 import bit.com.pathmapper.AlertDialogs.Season;
 import bit.com.pathmapper.AlertDialogs.Statistics;
 import bit.com.pathmapper.Models.ClusterMapMarker;
+import bit.com.pathmapper.Models.Collection;
 import bit.com.pathmapper.R;
+import bit.com.pathmapper.Utilities.DB_Handler;
 
 /**
  * Created by tsgar on 27/09/2016.
@@ -97,8 +100,7 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
         start();
         setOverlay();
         googleAPIConnection();
-        showClusters();
-        //howClustersByCollection(7);
+
 
     }
 
@@ -124,6 +126,17 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
         {
             menu.getItem(i).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
+
+        MenuItem menuItem = menu.findItem(R.id.menu_item_collections);
+        SubMenu subMenu = menuItem.getSubMenu();
+
+        List <Collection> cl = new DB_Handler(this).getAllCollections();
+        for (Collection col : cl)
+        {
+            String colName = col.getCollectionName();
+            subMenu.add(colName);
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -174,6 +187,14 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
                 hardAlert = new Hard();
                 FragmentManager fm7 = getFragmentManager();
                 hardAlert.show(fm7, "confirm");
+                break;
+
+            case "Show All":
+                showClusters();
+                break;
+
+            default:
+
                 break;
         }
 
