@@ -57,7 +57,7 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
         mClusterManager.clearItems();
         getMap().setOnCameraIdleListener(mClusterManager);
 
-        DB_Handler db = new DB_Handler(this);
+        DB_Handler db = new DB_Handler(getApplicationContext());
         List<PointOfInterest> points = db.getAllPOI();
 
         List<ClusterMapMarker> items = new ArrayList<ClusterMapMarker>();
@@ -66,6 +66,7 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
             double lat = poi.getLat();
             double lng = poi.getLng();
             items.add(new ClusterMapMarker(lat, lng));
+            Log.e("JSON exception:  ", String.valueOf(poi.getLat()));
         }
 
         mClusterManager.addItems(items);

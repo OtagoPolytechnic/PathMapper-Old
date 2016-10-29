@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -45,6 +46,7 @@ import bit.com.pathmapper.AlertDialogs.Season;
 import bit.com.pathmapper.AlertDialogs.Statistics;
 import bit.com.pathmapper.Models.ClusterMapMarker;
 import bit.com.pathmapper.Models.Collection;
+import bit.com.pathmapper.Models.PointOfInterest;
 import bit.com.pathmapper.R;
 import bit.com.pathmapper.Utilities.DB_Handler;
 
@@ -100,7 +102,6 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
         start();
         setOverlay();
         googleAPIConnection();
-
 
     }
 
@@ -190,11 +191,13 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
                 break;
 
             case "Show All":
-                showClusters();
+                Toast.makeText(this, "Loading....", Toast.LENGTH_LONG).show();
+                checkNearby();
                 break;
 
             default:
-
+                int colID = item.getItemId();
+                showClustersByCollection(colID);
                 break;
         }
 
@@ -281,16 +284,9 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
 
     }
 
-    public void checkNearby(Location location)
+    public void checkNearby()
     {
-        if(location!=null)
-        {
-
-        }
-        else
-        {
-            Toast.makeText(this, "Can't find Location", Toast.LENGTH_LONG).show();
-        }
+        showClusters();
 
     }
 
