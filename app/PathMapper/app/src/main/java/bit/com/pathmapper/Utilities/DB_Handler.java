@@ -103,6 +103,34 @@ public class DB_Handler extends SQLiteOpenHelper
         db.close(); // Closing database connection
     }
 
+    //checks for existing POI from ID
+    public boolean checkExistingPOI(int id)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String Query = "Select * from " + TABLE_POI + " where " + KEY_POI_ID + " = " + id;
+        Cursor cursor = db.rawQuery(Query, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+        return true;
+    }
+
+    //checks for Collection from ID
+    public boolean checkExistingCollection(int id)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String Query = "Select * from " + TABLE_COLLECTION + " where " + KEY_COLLECTION_ID + " = " + id;
+        Cursor cursor = db.rawQuery(Query, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+        return true;
+    }
+
     // Getting one shop
     public PointOfInterest getPOI(int id) {
         try

@@ -113,9 +113,14 @@ public class DB_Sync
                 {
                     JSONObject collection = collections.getJSONObject(i);
                     String id = collection.getString("id");
-                    String name = collection.getString("name");
-                    DB_Handler db = new DB_Handler(context);
-                    db.addCollection(new Collection(Integer.parseInt(id), name));
+
+                    if( !new DB_Handler(context).checkExistingCollection(Integer.parseInt(id)))
+                    {
+                        String name = collection.getString("name");
+                        DB_Handler db = new DB_Handler(context);
+                        db.addCollection(new Collection(Integer.parseInt(id), name));
+                    }
+
                 }
 
                 JSONArray interestPoints = pointsOfInterest.getJSONArray("InterestPoints");
@@ -124,15 +129,20 @@ public class DB_Sync
                 {
                     JSONObject iPoints = interestPoints.getJSONObject(i);
                     String id = iPoints.getString("id");
-                    String name = iPoints.getString("name");
-                    String scientific_name = iPoints.getString("scientific_name");
-                    String lat = iPoints.getString("lat");
-                    String lng = iPoints.getString("lng");
-                    String description = iPoints.getString("description");
-                    String collectionID = iPoints.getString("collection");
 
-                    DB_Handler db = new DB_Handler(context);
-                    db.addPOI(new PointOfInterest(Integer.parseInt(id), name, scientific_name, Double.parseDouble(lat), Double.parseDouble(lng), description,Integer.parseInt(collectionID)));
+                    if( !new DB_Handler(context).checkExistingPOI(Integer.parseInt(id)))
+                    {
+                        String name = iPoints.getString("name");
+                        String scientific_name = iPoints.getString("scientific_name");
+                        String lat = iPoints.getString("lat");
+                        String lng = iPoints.getString("lng");
+                        String description = iPoints.getString("description");
+                        String collectionID = iPoints.getString("collection");
+
+                        DB_Handler db = new DB_Handler(context);
+                        db.addPOI(new PointOfInterest(Integer.parseInt(id), name, scientific_name, Double.parseDouble(lat), Double.parseDouble(lng), description,Integer.parseInt(collectionID)));
+                    }
+
                 }
 
             }

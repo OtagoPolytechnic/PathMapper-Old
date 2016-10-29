@@ -97,8 +97,8 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
         start();
         setOverlay();
         googleAPIConnection();
-       // showClusters();
-        showClustersByCollection(7);
+        showClusters();
+        //howClustersByCollection(7);
 
     }
 
@@ -264,24 +264,7 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
     {
         if(location!=null)
         {
-            InputStream inputStream = getResources().openRawResource(R.raw.poi_areas);
-            List<ClusterMapMarker> items2 = null;
-            try {
-                items2 = new MyItemReader().read(inputStream);
-                Location target = new Location("target");
-                for(LatLng point : new LatLng[]{items2.get(0).getPosition(), items2.get(1).getPosition(), items2.get(2).getPosition(), items2.get(3).getPosition()}) {
-                    target.setLatitude(point.latitude);
-                    target.setLongitude(point.longitude);
-                    if(location.distanceTo(target) < 20) {
-                        Vibrator v = (Vibrator) this.getSystemService(this.VIBRATOR_SERVICE);
-                        // Vibrate for 500 milliseconds
-                        v.vibrate(new long[]{500}, -1);
-                        map.addMarker(new MarkerOptions().position(new LatLng(target.getLatitude(), target.getLongitude())).title("Near").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+
         }
         else
         {
