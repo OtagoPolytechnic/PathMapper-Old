@@ -1,25 +1,24 @@
 package bit.com.pathmapper.Activities;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.database.sqlite.SQLiteDatabase;
+import android.app.FragmentManager;
+
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -36,29 +35,40 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import bit.com.pathmapper.AlertDialogs.Easy;
+import bit.com.pathmapper.AlertDialogs.Hard;
+import bit.com.pathmapper.AlertDialogs.Hours;
+import bit.com.pathmapper.AlertDialogs.Medium;
+import bit.com.pathmapper.AlertDialogs.Prohibited;
+import bit.com.pathmapper.AlertDialogs.Season;
+import bit.com.pathmapper.AlertDialogs.Statistics;
 import bit.com.pathmapper.Models.ClusterMapMarker;
-import bit.com.pathmapper.Models.Collection;
-import bit.com.pathmapper.Models.PointOfInterest;
 import bit.com.pathmapper.R;
-import bit.com.pathmapper.Utilities.DB_Handler;
 
 /**
  * Created by tsgar on 27/09/2016.
  */
 
-public abstract class BaseMapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
+public abstract class BaseMapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
     private GoogleMap map;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private ClusterManager<ClusterMapMarker> mClusterManager;
 
+    Hours hoursAlert;
+    Season seasonAlert;
+    Statistics statisticAlert;
+    Prohibited prohibitedAlert;
+    Easy easyAlert;
+    Medium mediumAlert;
+    Hard hardAlert;
+
     protected int getLayoutID() { return  R.layout.map; }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //Check if google services is currently installed
         if(googleServicesAvailable())
         {
@@ -103,6 +113,73 @@ public abstract class BaseMapActivity extends FragmentActivity implements OnMapR
     protected GoogleMap getMap() {
         return map;
     }
+
+
+    //Start of Menu functions
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.colour_menu_list, menu);
+        for (int i = 0; i < menu.size(); i++)
+        {
+            menu.getItem(i).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        String itemTitle = (String) item.getTitle();
+
+        switch(itemTitle)
+        {
+            case "Hours":
+                hoursAlert = new Hours();
+                FragmentManager fm = getFragmentManager();
+                hoursAlert.show(fm, "confirm");
+                break;
+
+            case "Seasonal Attractions":
+                seasonAlert = new Season();
+                FragmentManager fm2 = getFragmentManager();
+                seasonAlert.show(fm2, "confirm");
+                break;
+
+            case "Garden Statistics":
+                statisticAlert = new Statistics();
+                FragmentManager fm3 = getFragmentManager();
+                statisticAlert.show(fm3, "confirm");
+                break;
+
+            case "Prohibited Items":
+                prohibitedAlert = new Prohibited();
+                FragmentManager fm4 = getFragmentManager();
+                prohibitedAlert.show(fm4, "confirm");
+                break;
+
+            case "Easy":
+                easyAlert = new Easy();
+                FragmentManager fm5 = getFragmentManager();
+                easyAlert.show(fm5, "confirm");
+                break;
+
+            case "Medium":
+                mediumAlert = new Medium();
+                FragmentManager fm6 = getFragmentManager();
+                mediumAlert.show(fm6, "confirm");
+                break;
+
+            case "Hard":
+                hardAlert = new Hard();
+                FragmentManager fm7 = getFragmentManager();
+                hardAlert.show(fm7, "confirm");
+                break;
+        }
+
+        return true;
+    }
+    //End of Menu functions
 
     public void setOverlay()
     {
