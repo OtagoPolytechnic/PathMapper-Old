@@ -1,7 +1,9 @@
 package bit.com.pathmapper.Activities;
 
 import android.app.Dialog;
+import android.database.sqlite.SQLiteDatabase;
 import android.app.FragmentManager;
+
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -25,10 +27,12 @@ import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.ClusterManager;
 
 import org.json.JSONException;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import bit.com.pathmapper.AlertDialogs.Easy;
@@ -50,6 +54,7 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
     private GoogleMap map;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+    private ClusterManager<ClusterMapMarker> mClusterManager;
 
     Hours hoursAlert;
     Season seasonAlert;
@@ -92,7 +97,8 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
         start();
         setOverlay();
         googleAPIConnection();
-
+       // showClusters();
+        showClustersByCollection(7);
 
     }
 
@@ -101,6 +107,8 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
     }
 
     protected abstract void start();
+    protected abstract void showClusters();
+    protected abstract void showClustersByCollection(int collectionID);
 
     protected GoogleMap getMap() {
         return map;
@@ -281,6 +289,8 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
         }
 
     }
+
+
 
 
 }
