@@ -134,7 +134,7 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
         for (Collection col : cl)
         {
             String colName = col.getCollectionName();
-            subMenu.add(colName);
+            subMenu.add(1, col.getId(), 1, colName);
         }
 
         return super.onCreateOptionsMenu(menu);
