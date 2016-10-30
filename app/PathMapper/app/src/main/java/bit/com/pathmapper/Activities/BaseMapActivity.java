@@ -103,14 +103,15 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
         }
         map = gMap;
         map.setMyLocationEnabled(true);
+        map.getUiSettings().setTiltGesturesEnabled(false);
         map.setMinZoomPreference(16);
         map.setMaxZoomPreference(17);
 
         setClusterManager();
 
         LatLngBounds polyBounds = new LatLngBounds(
-                new LatLng(-45.862595,170.515725),       // South west corner
-                new LatLng(-45.854140,170.527462));      // North east corner
+                new LatLng(-45.858595,170.518425),       // South west corner
+                new LatLng(-45.857140,170.524462));      // North east corner
         map.setLatLngBoundsForCameraTarget(polyBounds);
         map.setOnMarkerClickListener(getManager());
 
