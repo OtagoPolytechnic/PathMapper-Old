@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 import bit.com.pathmapper.Activities.SplashActivity;
 import bit.com.pathmapper.Models.Collection;
@@ -37,7 +38,13 @@ public class DB_Sync
         this.context = context;
 
         WebService APIThread = new WebService(context);
-        APIThread.execute();
+        try {
+            String st = APIThread.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     class WebService extends AsyncTask<Void,Void,String>

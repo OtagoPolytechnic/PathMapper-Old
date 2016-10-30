@@ -183,23 +183,30 @@ public class DB_Handler extends SQLiteOpenHelper
         List<PointOfInterest> poiList = new ArrayList<PointOfInterest>();
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_POI;
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                PointOfInterest poi = new PointOfInterest();
-                poi.setId(Integer.parseInt(cursor.getString(0)));
-                poi.setName(cursor.getString(1));
-                poi.setScientificName(cursor.getString(2));
-                poi.setLat(cursor.getDouble(3));
-                poi.setLng(cursor.getDouble(4));
-                poi.setDescription(cursor.getString(5));
-                poi.setCollection(cursor.getInt(6));
-                // Adding contact to list
-                poiList.add(poi);
-            } while (cursor.moveToNext());
-        }
+
+      try {
+          SQLiteDatabase db = this.getWritableDatabase();
+          Cursor cursor = db.rawQuery(selectQuery, null);
+          // looping through all rows and adding to list
+          if (cursor.moveToFirst()) {
+              do {
+                  PointOfInterest poi = new PointOfInterest();
+                  poi.setId(Integer.parseInt(cursor.getString(0)));
+                  poi.setName(cursor.getString(1));
+                  poi.setScientificName(cursor.getString(2));
+                  poi.setLat(cursor.getDouble(3));
+                  poi.setLng(cursor.getDouble(4));
+                  poi.setDescription(cursor.getString(5));
+                  poi.setCollection(cursor.getInt(6));
+                  // Adding contact to list
+                  poiList.add(poi);
+              } while (cursor.moveToNext());
+          }
+      }
+      catch (NullPointerException e)
+      {
+
+      }
         // return poi list
         return poiList;
     }

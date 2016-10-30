@@ -53,6 +53,7 @@ import bit.com.pathmapper.Models.Collection;
 import bit.com.pathmapper.Models.PointOfInterest;
 import bit.com.pathmapper.R;
 import bit.com.pathmapper.Utilities.DB_Handler;
+import bit.com.pathmapper.Utilities.LocationChecker;
 
 /**
  * Created by tsgar on 27/09/2016.
@@ -64,6 +65,7 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private ClusterManager<ClusterMapMarker> mClusterManager;
+
 
     Hours hoursAlert;
     Season seasonAlert;
@@ -118,7 +120,7 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
         start();
         setOverlay();
         googleAPIConnection();
-        showClusters();
+        //showClusters();
 
     }
 
@@ -297,8 +299,10 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
 
     //When location is changed
     @Override
-    public void onLocationChanged(Location location) {
-
+    public void onLocationChanged(Location location)
+    {
+        LocationChecker lChecker = new LocationChecker();
+        lChecker.checkNearby(location, getMap(), getApplicationContext());
 
     }
 
