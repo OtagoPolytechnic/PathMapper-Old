@@ -1,6 +1,7 @@
 package bit.com.pathmapper.Activities;
 
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -54,10 +55,11 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
     @Override
     protected void showClusters()
     {
+        mClusterManager = new ClusterManager<>(this, gMap);
         mClusterManager.clearItems();
         getMap().setOnCameraIdleListener(mClusterManager);
 
-        DB_Handler db = new DB_Handler(getApplicationContext());
+        DB_Handler db = new DB_Handler(this);
         List<PointOfInterest> points = db.getAllPOI();
 
         List<ClusterMapMarker> items = new ArrayList<ClusterMapMarker>();
@@ -66,8 +68,9 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
             double lat = poi.getLat();
             double lng = poi.getLng();
             items.add(new ClusterMapMarker(lat, lng));
-            Log.e("JSON exception:  ", String.valueOf(poi.getLat()));
+
         }
+        Log.e("JSON exception:  ", String.valueOf(items.get(0).getPosition()));
 
         mClusterManager.addItems(items);
     }

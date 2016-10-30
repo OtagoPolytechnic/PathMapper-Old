@@ -1,6 +1,7 @@
 package bit.com.pathmapper.Activities;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.app.FragmentManager;
 
@@ -14,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -99,9 +101,12 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
         }
         map = gMap;
         map.setMyLocationEnabled(true);
+        map.setMinZoomPreference(16);
+        map.setMaxZoomPreference(18);
         start();
         setOverlay();
         googleAPIConnection();
+        showClusters();
 
     }
 
@@ -284,8 +289,12 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
 
     }
 
+
+
+
     public void checkNearby()
     {
+
         showClusters();
 
     }
