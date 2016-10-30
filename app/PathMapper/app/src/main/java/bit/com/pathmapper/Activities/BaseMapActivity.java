@@ -31,6 +31,7 @@ import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 
 import org.json.JSONException;
@@ -43,6 +44,7 @@ import bit.com.pathmapper.AlertDialogs.Easy;
 import bit.com.pathmapper.AlertDialogs.Hard;
 import bit.com.pathmapper.AlertDialogs.Hours;
 import bit.com.pathmapper.AlertDialogs.Medium;
+import bit.com.pathmapper.AlertDialogs.POI_Dialog;
 import bit.com.pathmapper.AlertDialogs.Prohibited;
 import bit.com.pathmapper.AlertDialogs.Season;
 import bit.com.pathmapper.AlertDialogs.Statistics;
@@ -102,12 +104,15 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
         map = gMap;
         map.setMyLocationEnabled(true);
         map.setMinZoomPreference(16);
-        map.setMaxZoomPreference(18);
+        map.setMaxZoomPreference(17);
+
+        setClusterManager();
 
         LatLngBounds polyBounds = new LatLngBounds(
                 new LatLng(-45.862595,170.515725),       // South west corner
                 new LatLng(-45.854140,170.527462));      // North east corner
         map.setLatLngBoundsForCameraTarget(polyBounds);
+        map.setOnMarkerClickListener(getManager());
 
         start();
         setOverlay();
@@ -127,6 +132,7 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
     protected GoogleMap getMap() {
         return map;
     }
+    protected ClusterManager getManager() { return mClusterManager; }
 
 
     //Start of Menu functions
@@ -203,7 +209,7 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
 
             case "Show All":
                 Toast.makeText(this, "Loading....", Toast.LENGTH_LONG).show();
-                checkNearby();
+
                 break;
 
             default:
@@ -295,14 +301,25 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
 
     }
 
-
-
-
-    public void checkNearby()
+    public void setClusterManager()
     {
+        mClusterManager = new ClusterManager<>(this, getMap());
+        getMap().setOnCameraIdleListener(mClusterManager);
+        mClusterManager.setOnClusterItemClickListener(new clusterListener());
 
-        showClusters();
+    }
 
+    private class clusterListener implements ClusterManager.OnClusterItemClickListener<ClusterMapMarker> {
+        @Override
+        public boolean onClusterItemClick(ClusterMapMarker clusterMapMarker) {
+            POI_Dialog pD= new POI_Dialog();
+            Bundle bundle = new Bundle();
+            bundle.putInt("key", clusterMapMarker.getID());
+            pD.setArguments(bundle);
+            FragmentManager fm8 = getFragmentManager();
+            pD.show(fm8, "confirm");
+            return false;
+        }
     }
 
 
