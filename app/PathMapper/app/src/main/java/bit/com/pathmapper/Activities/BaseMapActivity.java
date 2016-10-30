@@ -103,6 +103,12 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
         map.setMyLocationEnabled(true);
         map.setMinZoomPreference(16);
         map.setMaxZoomPreference(18);
+
+        LatLngBounds polyBounds = new LatLngBounds(
+                new LatLng(-45.862595,170.515725),       // South west corner
+                new LatLng(-45.854140,170.527462));      // North east corner
+        map.setLatLngBoundsForCameraTarget(polyBounds);
+
         start();
         setOverlay();
         googleAPIConnection();
@@ -214,12 +220,12 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
     {
         //Set the bounds of where the overlay will be
         LatLngBounds polyBounds = new LatLngBounds(
-                new LatLng(-45.862595,170.515725),       // South west corner
-                new LatLng(-45.854140,170.527462));      // North east corner
+                new LatLng(-45.865092,170.511513),       // South west corner
+                new LatLng(-45.851950,170.531448));      // North east corner
 
         //Create the ground the groundoverlay options
         GroundOverlayOptions groundMap = new GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromResource(R.drawable.botanic_overlay))
+                .image(BitmapDescriptorFactory.fromResource(R.drawable.test))
                 .positionFromBounds(polyBounds);
 
         //Set the overly to the map
