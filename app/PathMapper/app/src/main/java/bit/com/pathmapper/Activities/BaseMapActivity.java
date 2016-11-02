@@ -212,6 +212,7 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
                 break;
 
             case "Show All":
+                showClusters();
                 Toast.makeText(this, "Loading....", Toast.LENGTH_LONG).show();
 
                 break;
@@ -219,6 +220,7 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
             default:
                 int colID = item.getItemId();
                 showClustersByCollection(colID);
+                Toast.makeText(this, "Loading....", Toast.LENGTH_LONG).show();
                 break;
         }
 
