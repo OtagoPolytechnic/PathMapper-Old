@@ -1,21 +1,15 @@
 package bit.com.pathmapper.Activities;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.app.FragmentManager;
-
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -30,14 +24,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 
-import org.json.JSONException;
-
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import bit.com.pathmapper.AlertDialogs.Easy;
@@ -50,10 +38,8 @@ import bit.com.pathmapper.AlertDialogs.Season;
 import bit.com.pathmapper.AlertDialogs.Statistics;
 import bit.com.pathmapper.Models.ClusterMapMarker;
 import bit.com.pathmapper.Models.Collection;
-import bit.com.pathmapper.Models.PointOfInterest;
 import bit.com.pathmapper.R;
 import bit.com.pathmapper.Utilities.DB_Handler;
-import bit.com.pathmapper.Utilities.LocationChecker;
 
 /**
  * Created by tsgar on 27/09/2016.
@@ -285,7 +271,7 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
         //Set location priority to high. Use all available assets to get the most accurate location. GPS, Mobile data (If available)
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         //Set location update interval
-        mLocationRequest.setInterval(100);
+        mLocationRequest.setInterval(5000);
 
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
     }

@@ -1,13 +1,10 @@
 package bit.com.pathmapper.Activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import bit.com.pathmapper.R;
 import bit.com.pathmapper.Utilities.DB_Sync;
 
 public class SplashActivity extends AppCompatActivity {

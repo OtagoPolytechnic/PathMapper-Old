@@ -3,7 +3,6 @@ package bit.com.pathmapper.AlertDialogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import bit.com.pathmapper.Models.PointOfInterest;

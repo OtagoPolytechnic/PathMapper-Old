@@ -2,10 +2,14 @@ package bit.com.pathmapper.Utilities;
 
 import android.content.Context;
 import android.util.Log;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.maps.android.kml.KmlLayer;
+
 import org.xmlpull.v1.XmlPullParserException;
+
 import java.io.IOException;
+
 import bit.com.pathmapper.R;
 
 /**

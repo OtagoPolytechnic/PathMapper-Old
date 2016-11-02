@@ -1,8 +1,6 @@
 package bit.com.pathmapper.Utilities;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -20,7 +18,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
-import bit.com.pathmapper.Activities.SplashActivity;
 import bit.com.pathmapper.Models.Collection;
 import bit.com.pathmapper.Models.PointOfInterest;
 

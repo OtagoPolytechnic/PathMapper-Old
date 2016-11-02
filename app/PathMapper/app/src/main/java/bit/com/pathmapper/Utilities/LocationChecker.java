@@ -1,20 +1,13 @@
 package bit.com.pathmapper.Utilities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import bit.com.pathmapper.Activities.BaseMapActivity;
 import bit.com.pathmapper.Models.ClusterMapMarker;
 import bit.com.pathmapper.Models.Collection;
 import bit.com.pathmapper.Models.PointOfInterest;

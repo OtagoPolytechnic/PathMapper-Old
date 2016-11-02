@@ -1,24 +1,15 @@
 package bit.com.pathmapper.Activities;
 
 
-import android.app.FragmentManager;
-import android.content.Context;
 import android.location.Location;
-import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.maps.android.clustering.Cluster;
-import com.google.maps.android.clustering.ClusterItem;
-import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import bit.com.pathmapper.AlertDialogs.Hard;
-import bit.com.pathmapper.AlertDialogs.POI_Dialog;
 import bit.com.pathmapper.Interfaces.IMarkers;
 import bit.com.pathmapper.Interfaces.IPaths;
 import bit.com.pathmapper.Models.ClusterMapMarker;
@@ -122,7 +113,7 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
     {
         LocationChecker lChecker = new LocationChecker();
         List<ClusterMapMarker> items = lChecker.checkNearby(location, getMap(), getApplicationContext(), collectionArray);
-        getManager().clearItems();
+        //getManager().clearItems();
         getManager().addItems(items);
     }
 
