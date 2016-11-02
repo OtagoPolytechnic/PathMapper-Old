@@ -3,11 +3,13 @@ package bit.com.pathmapper.Utilities;
 import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +26,11 @@ import bit.com.pathmapper.Models.PointOfInterest;
 public class LocationChecker
 {
 
-    public void checkNearby(Location location, GoogleMap map, Context context)
+    public List<ClusterMapMarker> checkNearby(Location location, GoogleMap map, Context context)
     {
         DB_Handler db = new DB_Handler(context);
         List<PointOfInterest> points = db.getAllPOI();
+        List<ClusterMapMarker> items = new ArrayList<ClusterMapMarker>();
 
         for (PointOfInterest poi : points)
         {
@@ -38,17 +41,16 @@ public class LocationChecker
             too.setLongitude(lng);
 
             double distance=location.distanceTo(too);
-            Toast.makeText(context, String.valueOf(distance), Toast.LENGTH_LONG).show();
-            if (distance < 25)
+
+
+            if (distance < 50)
             {
-                MarkerOptions op = new MarkerOptions();
-                op.title(poi.getName());
-                op.position(new LatLng(lat, lng));
-                map.addMarker(op);
+                items.add(new ClusterMapMarker(poi.getId(), lat, lng));
             }
 
         }
-
+        //Log.e("JSON exception:  ", String.valueOf(items.get(0).getPosition()));
+        return items;
     }
 
     //Location checker logic for getting the users location and showing the markers

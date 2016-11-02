@@ -74,7 +74,6 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
             items.add(new ClusterMapMarker(poi.getId(), lat, lng));
 
         }
-        Log.e("JSON exception:  ", String.valueOf(items.get(0).getPosition()));
 
         getManager().addItems(items);
     }
@@ -96,6 +95,13 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
 
         }
 
+        getManager().addItems(items);
+    }
+
+    @Override
+    protected void showNearClusters(List<ClusterMapMarker> items)
+    {
+        //getManager().clearItems();
         getManager().addItems(items);
     }
 

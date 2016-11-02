@@ -131,6 +131,7 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
     protected abstract void start();
     protected abstract void showClusters();
     protected abstract void showClustersByCollection(int collectionID);
+    protected abstract void showNearClusters(List<ClusterMapMarker> items);
 
     protected GoogleMap getMap() {
         return map;
@@ -302,7 +303,8 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
     public void onLocationChanged(Location location)
     {
         LocationChecker lChecker = new LocationChecker();
-        lChecker.checkNearby(location, getMap(), getApplicationContext());
+        List<ClusterMapMarker> items = lChecker.checkNearby(location, getMap(), getApplicationContext());
+        showNearClusters(items);
 
     }
 
