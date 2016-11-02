@@ -3,6 +3,7 @@ package bit.com.pathmapper.Activities;
 
 import android.app.FragmentManager;
 import android.content.Context;
+import android.location.Location;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,9 +22,11 @@ import bit.com.pathmapper.AlertDialogs.POI_Dialog;
 import bit.com.pathmapper.Interfaces.IMarkers;
 import bit.com.pathmapper.Interfaces.IPaths;
 import bit.com.pathmapper.Models.ClusterMapMarker;
+import bit.com.pathmapper.Models.Collection;
 import bit.com.pathmapper.Models.PointOfInterest;
 import bit.com.pathmapper.Utilities.DB_Handler;
 import bit.com.pathmapper.Utilities.KmlParser;
+import bit.com.pathmapper.Utilities.LocationChecker;
 
 
 /**
@@ -35,6 +38,7 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
 
 
     private GoogleMap gMap;
+    private ArrayList<Collection> collectionArray;
 
 
     //Extends BaseMapActivity
@@ -55,6 +59,19 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
         KmlParser kmlParser = new KmlParser(gMap, this); //Initialize the KmlParser Class and pass it the map and the app context.
         kmlParser.RenderKmlPaths(); //Call the wrapper render function.
 
+        //Creation of collectionsArray-------------
+        DB_Handler db = new DB_Handler(getApplicationContext());
+        collectionArray = new ArrayList<>();
+
+        List <Collection> cl = new DB_Handler(this).getAllCollections();
+        for (Collection col : cl)
+        {
+            List<PointOfInterest> points = db.getAllCollectionPOI(col.getId());
+            Collection collection = new Collection(col.getId(),col.getCollectionName(), points);
+            collectionArray.add(collection);
+        }
+        //End of creation---------------------------
+
     }
 
     @Override
@@ -62,17 +79,16 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
     {
 
         getManager().clearItems();
-
-        DB_Handler db = new DB_Handler(this);
-        List<PointOfInterest> points = db.getAllPOI();
-
         List<ClusterMapMarker> items = new ArrayList<ClusterMapMarker>();
-        for (PointOfInterest poi : points)
-        {
-            double lat = poi.getLat();
-            double lng = poi.getLng();
-            items.add(new ClusterMapMarker(poi.getId(), lat, lng));
 
+        for (Collection col : collectionArray)
+        {
+            List<PointOfInterest> points = col.getPoints();
+
+            for (PointOfInterest poi : points)
+            {
+                items.add(new ClusterMapMarker(poi.getId(), poi.getLat(), poi.getLng()));
+            }
         }
 
         getManager().addItems(items);
@@ -82,16 +98,19 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
     protected void showClustersByCollection(int collectionID)
     {
         getManager().clearItems();
-
-        DB_Handler db = new DB_Handler(this);
-        List<PointOfInterest> points = db.getAllCollectionPOI(collectionID);
-
         List<ClusterMapMarker> items = new ArrayList<ClusterMapMarker>();
-        for (PointOfInterest poi : points)
+
+        for (Collection col : collectionArray)
         {
-            double lat = poi.getLat();
-            double lng = poi.getLng();
-            items.add(new ClusterMapMarker(poi.getId(), lat, lng));
+            if(col.getId() == collectionID)
+            {
+                List<PointOfInterest> points = col.getPoints();
+
+                for (PointOfInterest poi : points)
+                {
+                    items.add(new ClusterMapMarker(poi.getId(), poi.getLat(), poi.getLng()));
+                }
+            }
 
         }
 
@@ -99,9 +118,11 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
     }
 
     @Override
-    protected void showNearClusters(List<ClusterMapMarker> items)
+    protected void showNearClusters(Location location)
     {
-        //getManager().clearItems();
+        LocationChecker lChecker = new LocationChecker();
+        List<ClusterMapMarker> items = lChecker.checkNearby(location, getMap(), getApplicationContext(), collectionArray);
+        getManager().clearItems();
         getManager().addItems(items);
     }
 

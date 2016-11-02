@@ -125,7 +125,7 @@ public class DB_Sync
                     {
                         String name = collection.getString("name");
                         DB_Handler db = new DB_Handler(context);
-                        db.addCollection(new Collection(Integer.parseInt(id), name));
+                        db.addCollection(new Collection(Integer.parseInt(id), name, null));
                     }
 
                 }

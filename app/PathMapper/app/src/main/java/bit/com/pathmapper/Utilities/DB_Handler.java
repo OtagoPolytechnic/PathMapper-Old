@@ -158,27 +158,6 @@ public class DB_Handler extends SQLiteOpenHelper
 
     }
 
-    // Getting one collection
-    public Collection getCollection(int id) {
-        try {
-            SQLiteDatabase db = this.getReadableDatabase();
-            Cursor cursor = db.query(TABLE_POI, new String[]{KEY_COLLECTION_ID,
-                            KEY_COLLECTION_NAME}, KEY_COLLECTION_ID + "=?",
-                    new String[]{String.valueOf(id)}, null, null, null, null);
-            if (cursor != null)
-                cursor.moveToFirst();
-            Collection collection = new Collection(Integer.parseInt(cursor.getString(0)),
-                    cursor.getString(1));
-            db.close();
-            // return collection
-            return collection;
-        }
-        catch(IndexOutOfBoundsException e)
-        {
-            return null;
-        }
-
-    }
 
     // Getting All POIs
     public List<PointOfInterest> getAllPOI() {
