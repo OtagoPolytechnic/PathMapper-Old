@@ -55,6 +55,8 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
         KmlParser kmlParser = new KmlParser(gMap, this); //Initialize the KmlParser Class and pass it the map and the app context.
         kmlParser.RenderKmlPaths(); //Call the wrapper render function.
 
+
+
     }
 
     @Override
