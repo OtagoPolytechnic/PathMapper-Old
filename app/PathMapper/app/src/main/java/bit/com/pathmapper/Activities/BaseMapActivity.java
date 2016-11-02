@@ -1,6 +1,7 @@
 package bit.com.pathmapper.Activities;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.app.FragmentManager;
 
@@ -9,9 +10,12 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -27,6 +31,7 @@ import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 
 import org.json.JSONException;
@@ -39,11 +44,16 @@ import bit.com.pathmapper.AlertDialogs.Easy;
 import bit.com.pathmapper.AlertDialogs.Hard;
 import bit.com.pathmapper.AlertDialogs.Hours;
 import bit.com.pathmapper.AlertDialogs.Medium;
+import bit.com.pathmapper.AlertDialogs.POI_Dialog;
 import bit.com.pathmapper.AlertDialogs.Prohibited;
 import bit.com.pathmapper.AlertDialogs.Season;
 import bit.com.pathmapper.AlertDialogs.Statistics;
 import bit.com.pathmapper.Models.ClusterMapMarker;
+import bit.com.pathmapper.Models.Collection;
+import bit.com.pathmapper.Models.PointOfInterest;
 import bit.com.pathmapper.R;
+import bit.com.pathmapper.Utilities.DB_Handler;
+import bit.com.pathmapper.Utilities.LocationChecker;
 
 /**
  * Created by tsgar on 27/09/2016.
@@ -55,6 +65,7 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private ClusterManager<ClusterMapMarker> mClusterManager;
+
 
     Hours hoursAlert;
     Season seasonAlert;
@@ -94,11 +105,22 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
         }
         map = gMap;
         map.setMyLocationEnabled(true);
+        map.getUiSettings().setTiltGesturesEnabled(false);
+        map.setMinZoomPreference(16);
+        map.setMaxZoomPreference(17);
+
+        setClusterManager();
+
+        LatLngBounds polyBounds = new LatLngBounds(
+                new LatLng(-45.858595,170.518425),       // South west corner
+                new LatLng(-45.857140,170.524462));      // North east corner
+        map.setLatLngBoundsForCameraTarget(polyBounds);
+        map.setOnMarkerClickListener(getManager());
+
         start();
         setOverlay();
         googleAPIConnection();
-        showClusters();
-        //howClustersByCollection(7);
+        //showClusters();
 
     }
 
@@ -109,10 +131,12 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
     protected abstract void start();
     protected abstract void showClusters();
     protected abstract void showClustersByCollection(int collectionID);
+    protected abstract void showNearClusters(List<ClusterMapMarker> items);
 
     protected GoogleMap getMap() {
         return map;
     }
+    protected ClusterManager getManager() { return mClusterManager; }
 
 
     //Start of Menu functions
@@ -124,6 +148,17 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
         {
             menu.getItem(i).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
+
+        MenuItem menuItem = menu.findItem(R.id.menu_item_collections);
+        SubMenu subMenu = menuItem.getSubMenu();
+
+        List <Collection> cl = new DB_Handler(this).getAllCollections();
+        for (Collection col : cl)
+        {
+            String colName = col.getCollectionName();
+            subMenu.add(1, col.getId(), 1, colName);
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -175,6 +210,16 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
                 FragmentManager fm7 = getFragmentManager();
                 hardAlert.show(fm7, "confirm");
                 break;
+
+            case "Show All":
+                Toast.makeText(this, "Loading....", Toast.LENGTH_LONG).show();
+
+                break;
+
+            default:
+                int colID = item.getItemId();
+                showClustersByCollection(colID);
+                break;
         }
 
         return true;
@@ -185,12 +230,12 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
     {
         //Set the bounds of where the overlay will be
         LatLngBounds polyBounds = new LatLngBounds(
-                new LatLng(-45.862595,170.515725),       // South west corner
-                new LatLng(-45.854140,170.527462));      // North east corner
+                new LatLng(-45.865092,170.511513),       // South west corner
+                new LatLng(-45.851950,170.531448));      // North east corner
 
         //Create the ground the groundoverlay options
         GroundOverlayOptions groundMap = new GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromResource(R.drawable.botanic_overlay))
+                .image(BitmapDescriptorFactory.fromResource(R.drawable.test))
                 .positionFromBounds(polyBounds);
 
         //Set the overly to the map
@@ -255,22 +300,33 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
 
     //When location is changed
     @Override
-    public void onLocationChanged(Location location) {
-
+    public void onLocationChanged(Location location)
+    {
+        LocationChecker lChecker = new LocationChecker();
+        List<ClusterMapMarker> items = lChecker.checkNearby(location, getMap(), getApplicationContext());
+        showNearClusters(items);
 
     }
 
-    public void checkNearby(Location location)
+    public void setClusterManager()
     {
-        if(location!=null)
-        {
+        mClusterManager = new ClusterManager<>(this, getMap());
+        getMap().setOnCameraIdleListener(mClusterManager);
+        mClusterManager.setOnClusterItemClickListener(new clusterListener());
 
-        }
-        else
-        {
-            Toast.makeText(this, "Can't find Location", Toast.LENGTH_LONG).show();
-        }
+    }
 
+    private class clusterListener implements ClusterManager.OnClusterItemClickListener<ClusterMapMarker> {
+        @Override
+        public boolean onClusterItemClick(ClusterMapMarker clusterMapMarker) {
+            POI_Dialog pD= new POI_Dialog();
+            Bundle bundle = new Bundle();
+            bundle.putInt("key", clusterMapMarker.getID());
+            pD.setArguments(bundle);
+            FragmentManager fm8 = getFragmentManager();
+            pD.show(fm8, "confirm");
+            return false;
+        }
     }
 
 

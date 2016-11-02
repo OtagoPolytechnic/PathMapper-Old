@@ -1,16 +1,23 @@
 package bit.com.pathmapper.Activities;
 
 
+import android.app.FragmentManager;
+import android.content.Context;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import bit.com.pathmapper.AlertDialogs.Hard;
+import bit.com.pathmapper.AlertDialogs.POI_Dialog;
 import bit.com.pathmapper.Interfaces.IMarkers;
 import bit.com.pathmapper.Interfaces.IPaths;
 import bit.com.pathmapper.Models.ClusterMapMarker;
@@ -26,7 +33,7 @@ import bit.com.pathmapper.Utilities.KmlParser;
 public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPaths{
 
 
-    private ClusterManager<ClusterMapMarker> mClusterManager;
+
     private GoogleMap gMap;
 
 
@@ -42,7 +49,6 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
     protected void start() {
         //Should start the map over the gardens information center.
         gMap = getMap();
-        mClusterManager = new ClusterManager<>(this, gMap);
 
         getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-45.856637, 170.518787), 15));
 
@@ -54,8 +60,8 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
     @Override
     protected void showClusters()
     {
-        mClusterManager.clearItems();
-        getMap().setOnCameraIdleListener(mClusterManager);
+
+        getManager().clearItems();
 
         DB_Handler db = new DB_Handler(this);
         List<PointOfInterest> points = db.getAllPOI();
@@ -65,17 +71,17 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
         {
             double lat = poi.getLat();
             double lng = poi.getLng();
-            items.add(new ClusterMapMarker(lat, lng));
+            items.add(new ClusterMapMarker(poi.getId(), lat, lng));
+
         }
 
-        mClusterManager.addItems(items);
+        getManager().addItems(items);
     }
 
     @Override
     protected void showClustersByCollection(int collectionID)
     {
-        mClusterManager.clearItems();
-        getMap().setOnCameraIdleListener(mClusterManager);
+        getManager().clearItems();
 
         DB_Handler db = new DB_Handler(this);
         List<PointOfInterest> points = db.getAllCollectionPOI(collectionID);
@@ -85,12 +91,21 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
         {
             double lat = poi.getLat();
             double lng = poi.getLng();
-            items.add(new ClusterMapMarker(lat, lng));
+            items.add(new ClusterMapMarker(poi.getId(), lat, lng));
 
-            Log.e("Yay the thing happened", Double.toString(lat));
-            Log.e("Yay the thing happened", Double.toString(lng));
         }
 
-        mClusterManager.addItems(items);
+        getManager().addItems(items);
     }
+
+    @Override
+    protected void showNearClusters(List<ClusterMapMarker> items)
+    {
+        //getManager().clearItems();
+        getManager().addItems(items);
+    }
+
+
+
+
 }
