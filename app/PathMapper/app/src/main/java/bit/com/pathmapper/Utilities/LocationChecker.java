@@ -16,6 +16,7 @@ import java.util.List;
 
 import bit.com.pathmapper.Activities.BaseMapActivity;
 import bit.com.pathmapper.Models.ClusterMapMarker;
+import bit.com.pathmapper.Models.Collection;
 import bit.com.pathmapper.Models.PointOfInterest;
 
 
@@ -26,30 +27,33 @@ import bit.com.pathmapper.Models.PointOfInterest;
 public class LocationChecker
 {
 
-    public List<ClusterMapMarker> checkNearby(Location location, GoogleMap map, Context context)
+    public List<ClusterMapMarker> checkNearby(Location location, GoogleMap map, Context context,ArrayList<Collection> collectionArray)
     {
-        DB_Handler db = new DB_Handler(context);
-        List<PointOfInterest> points = db.getAllPOI();
+
         List<ClusterMapMarker> items = new ArrayList<ClusterMapMarker>();
 
-        for (PointOfInterest poi : points)
+        for (Collection col : collectionArray)
         {
-            double lat = poi.getLat();
-            double lng = poi.getLng();
-            Location too = new Location("Location B");
-            too.setLatitude(lat);
-            too.setLongitude(lng);
+            List<PointOfInterest> points = col.getPoints();
 
-            double distance=location.distanceTo(too);
-
-
-            if (distance < 50)
+            for (PointOfInterest poi : points)
             {
-                items.add(new ClusterMapMarker(poi.getId(), lat, lng));
-            }
+                double lat = poi.getLat();
+                double lng = poi.getLng();
+                Location too = new Location("Location B");
+                too.setLatitude(lat);
+                too.setLongitude(lng);
 
+                double distance=location.distanceTo(too);
+
+
+                if (distance < 50)
+                {
+                    items.add(new ClusterMapMarker(poi.getId(), lat, lng));
+                }
+            }
         }
-        //Log.e("JSON exception:  ", String.valueOf(items.get(0).getPosition()));
+        
         return items;
     }
 
