@@ -21,6 +21,7 @@ import bit.com.pathmapper.AlertDialogs.POI_Dialog;
 import bit.com.pathmapper.Interfaces.IMarkers;
 import bit.com.pathmapper.Interfaces.IPaths;
 import bit.com.pathmapper.Models.ClusterMapMarker;
+import bit.com.pathmapper.Models.Collection;
 import bit.com.pathmapper.Models.PointOfInterest;
 import bit.com.pathmapper.Utilities.DB_Handler;
 import bit.com.pathmapper.Utilities.KmlParser;
@@ -35,6 +36,7 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
 
 
     private GoogleMap gMap;
+    private ArrayList<Collection> collectionArray;
 
 
     //Extends BaseMapActivity
@@ -55,7 +57,18 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
         KmlParser kmlParser = new KmlParser(gMap, this); //Initialize the KmlParser Class and pass it the map and the app context.
         kmlParser.RenderKmlPaths(); //Call the wrapper render function.
 
+        //Creation of collectionsArray-------------
+        DB_Handler db = new DB_Handler(getApplicationContext());
+        collectionArray = new ArrayList<>();
 
+        List <Collection> cl = new DB_Handler(this).getAllCollections();
+        for (Collection col : cl)
+        {
+            List<PointOfInterest> points = db.getAllCollectionPOI(col.getId());
+            Collection collection = new Collection(col.getId(),col.getCollectionName(), points);
+            collectionArray.add(collection);
+        }
+        //End of creation---------------------------
 
     }
 

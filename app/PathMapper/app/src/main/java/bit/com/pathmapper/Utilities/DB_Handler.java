@@ -157,7 +157,7 @@ public class DB_Handler extends SQLiteOpenHelper
         }
 
     }
-    
+
 
     // Getting All POIs
     public List<PointOfInterest> getAllPOI() {
