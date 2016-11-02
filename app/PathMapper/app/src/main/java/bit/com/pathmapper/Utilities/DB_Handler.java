@@ -147,6 +147,7 @@ public class DB_Handler extends SQLiteOpenHelper
                 cursor.moveToFirst();
             PointOfInterest poi = new PointOfInterest(Integer.parseInt(cursor.getString(0)),
                     cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getDouble(4), cursor.getString(5), cursor.getInt(2));
+            db.close();
             // return poi
             return poi;
         }
@@ -168,6 +169,7 @@ public class DB_Handler extends SQLiteOpenHelper
                 cursor.moveToFirst();
             Collection collection = new Collection(Integer.parseInt(cursor.getString(0)),
                     cursor.getString(1));
+            db.close();
             // return collection
             return collection;
         }
@@ -201,12 +203,14 @@ public class DB_Handler extends SQLiteOpenHelper
                   // Adding contact to list
                   poiList.add(poi);
               } while (cursor.moveToNext());
+              db.close();
           }
       }
       catch (NullPointerException e)
       {
 
       }
+
         // return poi list
         return poiList;
     }
@@ -235,6 +239,7 @@ public class DB_Handler extends SQLiteOpenHelper
 
             } while (cursor.moveToNext());
         }
+        db.close();
         // return poi list
         return poiList;
     }
@@ -256,6 +261,7 @@ public class DB_Handler extends SQLiteOpenHelper
                 collectionList.add(collection);
             } while (cursor.moveToNext());
         }
+        db.close();
         // return collections list
         return collectionList;
     }
@@ -283,6 +289,7 @@ public class DB_Handler extends SQLiteOpenHelper
         // updating row
         return db.update(TABLE_POI, values, KEY_POI_ID + " = ?",
                 new String[]{String.valueOf(collection.getId())});
+
     }
 
     // Deleting a POI
