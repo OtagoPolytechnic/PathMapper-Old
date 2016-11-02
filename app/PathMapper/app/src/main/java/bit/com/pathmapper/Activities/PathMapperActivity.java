@@ -122,7 +122,7 @@ public class PathMapperActivity extends BaseMapActivity implements IMarkers, IPa
     {
         LocationChecker lChecker = new LocationChecker();
         List<ClusterMapMarker> items = lChecker.checkNearby(location, getMap(), getApplicationContext(), collectionArray);
-        //getManager().clearItems();
+        getManager().clearItems();
         getManager().addItems(items);
     }
 

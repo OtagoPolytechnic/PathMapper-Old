@@ -53,7 +53,7 @@ public class LocationChecker
                 }
             }
         }
-        
+
         return items;
     }
 
